@@ -11,6 +11,11 @@ namespace KitchenStock.Components.Pages
         [Inject] ViewModel ViewModel { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
+        private string? mSearchString = "";
+
+        /// <summary>
+        /// Get Categories on page initilization
+        /// </summary>
         protected override async Task OnInitializedAsync()
         {
             await ViewModel.GetCategories();
@@ -48,5 +53,26 @@ namespace KitchenStock.Components.Pages
                 await ViewModel.GetCategories();
             }
         }
+
+        #region Helpers
+        private bool FilterFunction1(CategoryModel aCategoryModel) => FilterFunction2(aCategoryModel, mSearchString);
+
+        /// <summary>
+        /// Returns true if the string properties of the CategoryModel contains the search string
+        /// </summary>
+        /// <param name="aCategoryModel">The category</param>
+        /// <param name="mSearchString">The search string</param>
+        /// <returns>True if it any specified property contains the search string, false otherwise</returns>
+        private bool FilterFunction2(CategoryModel aCategoryModel, string mSearchString)
+        {
+            if (string.IsNullOrWhiteSpace(mSearchString))
+                return true;
+            if (aCategoryModel.Name.Contains(mSearchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (aCategoryModel.Description != null && aCategoryModel.Description.Contains(mSearchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
+        }
+        #endregion
     }
 }

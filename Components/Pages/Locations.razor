@@ -7,19 +7,24 @@
 
 <MudPaper Class="pa-4">
     <MudItem Class="d-flex justify-space-between">
-        <h1>Locations</h1>
+        <h1>Locations Sorted by SortOrder</h1>
         <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Success" @onclick="async () => await AddOrEditLocation(new LocationModel(), true)">Add New Location</MudButton>
     </MudItem>
 
     <MudItem Style="margin-top: 10px">
-        <MudTable Items="@ViewModel.Locations" Hover="true" Breakpoint="Breakpoint.Sm">
+        <MudTable Dense="true" Striped="true" Items="@ViewModel.Locations" Filter="new Func<LocationModel, bool>(FilterFunction1)" Hover="true" Breakpoint="Breakpoint.Sm">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Stock</MudText>
+                <MudSpacer />
+                <MudTextField Immediate="true" @bind-Value="mSearchString" Placeholder="Search by Name or Desription" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
             <HeaderContent>
-                <MudTh>Id</MudTh>
-                <MudTh>Name</MudTh>
-                <MudTh>SortOrder</MudTh>
-                <MudTh>Description</MudTh>
-                <MudTh>CreateDate</MudTh>
-                <MudTh>UpdateDate</MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<LocationModel, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<LocationModel, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<LocationModel, object>(x=>x.Id)">Description</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<LocationModel, object>(x=>x.SortOrder)">SortOrder</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<LocationModel, object>(x=>x.Id)">CreateDate</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<LocationModel, object>(x=>x.Id)">UpdateDate</MudTableSortLabel></MudTh>
                 <MudTh></MudTh>
             </HeaderContent>
             <RowTemplate>
@@ -33,6 +38,9 @@
                         <MudButton StartIcon="@Icons.Material.Filled.Edit" FullWidth="true" Variant="Variant.Filled" Color="Color.Warning" @onclick="async () => await AddOrEditLocation(context, false)">Edit</MudButton>
                     </MudTd>
                 </RowTemplate>
+                <PagerContent>
+                    <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                </PagerContent>
             </MudTable>
         </MudItem>
 </MudPaper>

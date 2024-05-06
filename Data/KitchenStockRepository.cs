@@ -45,7 +45,7 @@ namespace KitchenStock.Data
         #region Categories
         public async Task<List<CategoryModel>> GetCategories()
         {
-            return await mKitchenStockDbContext.Categories.OrderBy(x => x.Name).ToListAsync();
+            return await mKitchenStockDbContext.Categories.ToListAsync();
         }
 
         public async Task<CategoryModel> AddCategory(CategoryModel aCategoryModel)
@@ -73,7 +73,7 @@ namespace KitchenStock.Data
         #region Locations
         public async Task<List<LocationModel>> GetLocations()
         {
-            return await mKitchenStockDbContext.Locations.OrderBy(x => x.SortOrder).ToListAsync();
+            return await mKitchenStockDbContext.Locations.ToListAsync();
         }
 
         public async Task<LocationModel> AddLocation(LocationModel aLocationModel)

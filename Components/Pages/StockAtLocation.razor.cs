@@ -7,7 +7,7 @@ using MudBlazor;
 
 namespace KitchenStock.Components.Pages
 {
-    public partial class Location
+    public partial class StockAtLocation
     {
         [Inject] ViewModel ViewModel { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }

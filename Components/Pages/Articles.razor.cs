@@ -11,6 +11,12 @@ namespace KitchenStock.Components.Pages
         [Inject] ViewModel ViewModel { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
+        private string? mSearchString = "";
+
+        /// <summary>
+        /// Get Articles on page initilization
+        /// </summary>
+        /// <returns></returns>
         protected override async Task OnInitializedAsync()
         {
             await ViewModel.GetArticles();
@@ -48,5 +54,30 @@ namespace KitchenStock.Components.Pages
                 await ViewModel.GetArticles();
             }
         }
+
+        #region Helpers
+        private bool FilterFunction1(ArticleModel aArticleModel) => FilterFunction2(aArticleModel, mSearchString);
+
+        /// <summary>
+        /// Returns true if the string properties of the ArticleModel contains the search string
+        /// </summary>
+        /// <param name="aArticleModel">The category</param>
+        /// <param name="mSearchString">The search string</param>
+        /// <returns>True if it any specified property contains the search string, false otherwise</returns>
+        private bool FilterFunction2(ArticleModel aArticleModel, string mSearchString)
+        {
+            if (string.IsNullOrWhiteSpace(mSearchString))
+                return true;
+            if (aArticleModel.Name.Contains(mSearchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (aArticleModel.Description != null && aArticleModel.Description.Contains(mSearchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (aArticleModel.GetCategoryString().Contains(mSearchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (aArticleModel.EAN != null && aArticleModel.EAN.Contains(mSearchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
+        }
+        #endregion
     }
 }

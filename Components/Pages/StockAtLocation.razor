@@ -16,11 +16,11 @@
                 <MudButton Disabled="@(mSelectedStock.Count == 0)" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Error" @onclick="async () => await DeleteSelectedStock()">Delete Selected Items (@mSelectedStock.Count)</MudButton>
                 </MudStack>
             </MudItem>
-            <MudTable @bind-SelectedItems="mSelectedStock" MultiSelection="true" Striped="true" Items="@ViewModel.Stock.Where(x => x.LocationId == mLocationModel.Id)" Hover="true" Filter="new Func<StockModel, bool>(FilterFunction1)" Breakpoint="Breakpoint.Sm">
+            <MudTable Dense="true" @bind-SelectedItems="mSelectedStock" MultiSelection="true" Striped="true" Items="@ViewModel.Stock.Where(x => x.LocationId == mLocationModel.Id)" Hover="true" Filter="new Func<StockModel, bool>(FilterFunction1)" Breakpoint="Breakpoint.Sm">
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Stock</MudText>
                     <MudSpacer />
-                    <MudTextField @bind-Value="mSearchString" Placeholder="Search (Article, Category or Location)" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    <MudTextField Immediate="true" @bind-Value="mSearchString" Placeholder="Search (Article, Category or Location)" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                 </ToolBarContent>
                 <HeaderContent>
                     <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
