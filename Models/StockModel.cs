@@ -17,5 +17,23 @@
 
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
+
+        
+        //Default empty constructor
+        public StockModel() { }
+
+        //Copy constructor
+        public StockModel(StockModel aOriginalStockModel)
+        {
+            Id = aOriginalStockModel.Id;
+            ArticleId = aOriginalStockModel.ArticleId;
+            Article = aOriginalStockModel.Article;
+            LocationId = aOriginalStockModel.LocationId;
+            Location = aOriginalStockModel.Location;
+            BestBeforeDate = aOriginalStockModel.BestBeforeDate;
+            PercentageLeft = aOriginalStockModel.PercentageLeft;
+            CreateDate = aOriginalStockModel.CreateDate;
+            UpdateDate = aOriginalStockModel.UpdateDate;
+        }
     }
 }

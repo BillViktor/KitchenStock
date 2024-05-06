@@ -34,13 +34,5 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
                 MudDialog.Close();
             }
         }
-
-        /// <summary>
-        /// Closes the dialog
-        /// </summary>
-        private void Close()
-        {
-            MudDialog.Cancel();
-        }
     }
 }

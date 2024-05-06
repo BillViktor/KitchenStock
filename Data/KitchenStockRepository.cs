@@ -110,9 +110,12 @@ namespace KitchenStock.Data
 
         public async Task AddStock(StockModel aStockModel, int Quantity)
         {
+            //Make copies of the StockModel, as EF keeps track of the entity (not allowing the same model to be added multiple times)
+            StockModel aStockModelCopy = new StockModel(aStockModel);
             for(int i = 0; i<Quantity; i++)
             {
-                await mKitchenStockDbContext.Stock.AddAsync(aStockModel);
+                await mKitchenStockDbContext.Stock.AddAsync(aStockModelCopy);
+                aStockModelCopy = new StockModel(aStockModel);
             }
             
             await mKitchenStockDbContext.SaveChangesAsync();

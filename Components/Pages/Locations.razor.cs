@@ -25,7 +25,7 @@ namespace KitchenStock.Components.Pages
         {
             //Set the title
             string sDialogTitle = "Add New Location";
-            if(!aNewLocation)
+            if (!aNewLocation)
             {
                 sDialogTitle = $"Edit Location: {aLocationModel.Name}";
             }
@@ -43,7 +43,7 @@ namespace KitchenStock.Components.Pages
             var sDialog = await DialogService.ShowAsync<LocationDialog>(sDialogTitle, sParameters);
             var sResult = await sDialog.Result;
 
-            if(!sResult.Canceled)
+            if (!sResult.Canceled)
             {
                 await MasterViewModel.GetLocations();
             }

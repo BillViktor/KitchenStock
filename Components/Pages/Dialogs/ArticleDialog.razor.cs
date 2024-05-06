@@ -13,6 +13,7 @@ namespace KitchenStock.Components.Pages.Dialogs
 
         [Inject] MasterViewModel MasterViewModel { get; set; }
         [Inject] ISnackbar Snackbar { get; set; }
+        [Inject] IDialogService DialogService { get; set; }
 
         Dictionary<CategoryModel, bool> mCategoryIdAndAdded = new Dictionary<CategoryModel, bool>();
 
@@ -77,7 +78,18 @@ namespace KitchenStock.Components.Pages.Dialogs
         /// </summary>
         private async Task Delete()
         {
-            if(await MasterViewModel.RemoveArticle(mArticleModel))
+            //Confirm
+            var sParameter = new DialogParameters
+            {
+                { "mMessage", $"Are you sure you want to delete article \"{mArticleModel.Name}\"? All related Stock will be deleted! This action is irreversable!" }
+            };
+
+            var sDialog = await DialogService.ShowAsync<ConfirmationDialog>("Confirm", sParameter);
+            var sResult = await sDialog.Result;
+
+            if (sResult.Canceled) return;
+
+            if (await MasterViewModel.RemoveArticle(mArticleModel))
             {
                 MudDialog.Close();
             }

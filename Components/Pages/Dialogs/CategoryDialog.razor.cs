@@ -13,6 +13,7 @@ namespace KitchenStock.Components.Pages.Dialogs
 
         [Inject] MasterViewModel MasterViewModel { get; set; }
         [Inject] ISnackbar Snackbar { get; set; }
+        [Inject] IDialogService DialogService { get; set; }
 
 
         #region CRUD
@@ -47,7 +48,18 @@ namespace KitchenStock.Components.Pages.Dialogs
         /// </summary>
         private async Task Delete()
         {
-            if(await MasterViewModel.RemoveCategory(mCategoryModel))
+            //Confirm
+            var sParameter = new DialogParameters
+            {
+                { "mMessage", $"Are you sure you want to delete category \"{mCategoryModel.Name}\"? All related Articles, including their stock, will be deleted! This action is irreversable!" }
+            };
+
+            var sDialog = await DialogService.ShowAsync<ConfirmationDialog>("Confirm", sParameter);
+            var sResult = await sDialog.Result;
+
+            if (sResult.Canceled) return;
+
+            if (await MasterViewModel.RemoveCategory(mCategoryModel))
             {
                 MudDialog.Close();
             }

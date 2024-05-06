@@ -1,4 +1,5 @@
-﻿using KitchenStock.Components.Pages.Dialogs.Stock;
+﻿using KitchenStock.Components.Pages.Dialogs;
+using KitchenStock.Components.Pages.Dialogs.Stock;
 using KitchenStock.Components.ViewModels;
 using KitchenStock.Models;
 using Microsoft.AspNetCore.Components;
@@ -83,6 +84,17 @@ namespace KitchenStock.Components.Pages
         /// </summary>
         private async Task DeleteSelectedStock()
         {
+            //Confirm
+            var sParameter = new DialogParameters
+            {
+                { "mMessage", $"Are you sure you want to delete all selected stock ({mSelectedStock.Count} items)? This action is irreversable!" }
+            };
+
+            var sDialog = await DialogService.ShowAsync<ConfirmationDialog>("Confirm", sParameter);
+            var sResult = await sDialog.Result;
+
+            if (sResult.Canceled) return;
+
             if (await MasterViewModel.RemoveStock(mSelectedStock.ToList()))
             {
                 await MasterViewModel.GetStock();

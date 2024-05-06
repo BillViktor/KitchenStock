@@ -1,0 +1,15 @@
+﻿@using Models
+
+<MudDialog>
+   <DialogContent>
+      <MudItem>
+         <MudText>@mMessage</MudText>
+
+         <MudStack Style="margin-top: 20px" Row="true">
+                <MudButton @onclick="() => MudDialog.Close()" Variant="Variant.Filled" Color="Color.Error" FullWidth="true">Confirm</MudButton>
+               <MudButton @onclick="() => MudDialog.Cancel()" Variant="Variant.Filled" Color="Color.Warning" FullWidth="true">Cancel</MudButton>
+         </MudStack>
+      </MudItem>
+        
+   </DialogContent>
+</MudDialog>
