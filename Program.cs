@@ -16,7 +16,7 @@ builder.Services.AddDbContext<KitchenStockDbContext> (option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("KitchenStockDatabase"))); 
 
 builder.Services.AddScoped<KitchenStockRepository>();
-builder.Services.AddScoped<MasterViewModel>();
+builder.Services.AddScoped<ViewModel>();
 
 var app = builder.Build();
 

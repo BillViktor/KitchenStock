@@ -8,12 +8,12 @@ namespace KitchenStock.Components.Pages
 {
     public partial class Articles
     {
-        [Inject] MasterViewModel MasterViewModel { get; set; }
+        [Inject] ViewModel ViewModel { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            await MasterViewModel.GetArticles();
+            await ViewModel.GetArticles();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace KitchenStock.Components.Pages
 
             if (!sResult.Canceled)
             {
-                await MasterViewModel.GetArticles();
+                await ViewModel.GetArticles();
             }
         }
     }

@@ -6,13 +6,27 @@ namespace KitchenStock.Components.Layout
 {
     public partial class NavMenu
     {
-        [Inject] MasterViewModel MasterViewModel { get; set; }
+        [Inject] ViewModel MasterViewModel { get; set; }
 
-        public List<LocationModel> mLocations = new List<LocationModel>();
+        private int mMaxTries = 10;
+        private int mDelayInMs = 100;
 
-        //protected override async Task OnInitializedAsync()
-        //{
-        //    await MasterViewModel.GetLocations();
-        //}
+        /// <summary>
+        /// Wait for the Locations to load, then update UI to show the locations in the navmenu
+        /// </summary>
+        /// <returns></returns>
+        protected override async Task OnParametersSetAsync()
+        {
+            for(int i = 0; i < mMaxTries; i++)
+            {
+                if(MasterViewModel.Locations.Count > 0)
+                {
+                    StateHasChanged();
+                    break;
+                }
+                
+                await Task.Delay(mDelayInMs);
+            }
+        }
     }
 }

@@ -3,7 +3,7 @@
 
 <PageTitle>Home</PageTitle>
 
-<MessageComponent Errors="MasterViewModel.Errors" SuccessMessages="MasterViewModel.SuccessMessages" IsBusy="MasterViewModel.IsBusy" />
+<MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
 
 <MudPaper Class="pa-4">
     <MudItem Class="d-flex justify-space-between">
@@ -13,7 +13,7 @@
             <MudButton Disabled="@(mSelectedStock.Count == 0)" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Error" @onclick="async () => await DeleteSelectedStock()">Delete Selected Items (@mSelectedStock.Count)</MudButton>
        </MudStack>
     </MudItem>
-    <MudTable @bind-SelectedItems="mSelectedStock" MultiSelection="true" Striped="true" Items="@MasterViewModel.Stock" Hover="true" Filter="new Func<StockModel, bool>(FilterFunction1)" Breakpoint="Breakpoint.Sm">
+    <MudTable @bind-SelectedItems="mSelectedStock" MultiSelection="true" Striped="true" Items="@ViewModel.Stock" Hover="true" Filter="new Func<StockModel, bool>(FilterFunction1)" Breakpoint="Breakpoint.Sm">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Stock</MudText>
             <MudSpacer />

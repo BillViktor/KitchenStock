@@ -1,12 +1,14 @@
 ﻿@using Models
 
+<MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
+
 <MudDialog>
    <DialogContent>
       <MudItem>
          <MudItem Style="margin-top: 10px">
                <MudText>Location</MudText>
                 <MudSelect @bind-Value="mStockModel.Location" Variant="Variant.Filled" T="LocationModel" Label="Location" AnchorOrigin="Origin.BottomCenter">
-                    @foreach(var sLocation in MasterViewModel.Locations)
+                    @foreach(var sLocation in ViewModel.Locations)
                     {
                         <MudSelectItem Value="@sLocation">@sLocation.Name</MudSelectItem>
                     }

@@ -11,7 +11,7 @@ namespace KitchenStock.Components.Pages.Dialogs
         [Parameter] public LocationModel mLocationModel { get; set; }
         [Parameter] public bool mNewLocation { get; set; }
 
-        [Inject] MasterViewModel MasterViewModel { get; set; }
+        [Inject] ViewModel ViewModel { get; set; }
         [Inject] ISnackbar Snackbar { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
@@ -23,7 +23,7 @@ namespace KitchenStock.Components.Pages.Dialogs
         {
             if (!ValidateInputs()) return;
 
-            if(await MasterViewModel.AddLocation(mLocationModel))
+            if(await ViewModel.AddLocation(mLocationModel))
             {
                 MudDialog.Close();
             }
@@ -36,7 +36,7 @@ namespace KitchenStock.Components.Pages.Dialogs
         {
             if (!ValidateInputs()) return;
 
-            if (await MasterViewModel.UpdateLocation(mLocationModel))
+            if (await ViewModel.UpdateLocation(mLocationModel))
             {
                 MudDialog.Close();
             }
@@ -58,7 +58,8 @@ namespace KitchenStock.Components.Pages.Dialogs
 
             if (sResult.Canceled) return;
 
-            if(await MasterViewModel.RemoveLocation(mLocationModel))
+            ViewModel.IsBusy = true;
+            if (await ViewModel.RemoveLocation(mLocationModel))
             {
                 MudDialog.Close();
             }

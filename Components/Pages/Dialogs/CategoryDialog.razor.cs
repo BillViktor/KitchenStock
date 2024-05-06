@@ -11,7 +11,7 @@ namespace KitchenStock.Components.Pages.Dialogs
         [Parameter] public CategoryModel mCategoryModel { get; set; }
         [Parameter] public bool mNewCategory { get; set; }
 
-        [Inject] MasterViewModel MasterViewModel { get; set; }
+        [Inject] ViewModel ViewModel { get; set; }
         [Inject] ISnackbar Snackbar { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
@@ -24,7 +24,7 @@ namespace KitchenStock.Components.Pages.Dialogs
         {
             if (!ValidateInputs()) return;
 
-            if(await MasterViewModel.AddCategory(mCategoryModel))
+            if(await ViewModel.AddCategory(mCategoryModel))
             {
                 MudDialog.Close();
             }
@@ -37,7 +37,7 @@ namespace KitchenStock.Components.Pages.Dialogs
         {
             if (!ValidateInputs()) return;
 
-            if (await MasterViewModel.UpdateCategory(mCategoryModel))
+            if (await ViewModel.UpdateCategory(mCategoryModel))
             {
                 MudDialog.Close();
             }
@@ -59,7 +59,7 @@ namespace KitchenStock.Components.Pages.Dialogs
 
             if (sResult.Canceled) return;
 
-            if (await MasterViewModel.RemoveCategory(mCategoryModel))
+            if (await ViewModel.RemoveCategory(mCategoryModel))
             {
                 MudDialog.Close();
             }

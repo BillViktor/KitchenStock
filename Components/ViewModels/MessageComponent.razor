@@ -10,6 +10,11 @@
     <div>@ShowSuccess(mSuccessMessages[i])</div>
 }
 
+@if(IsBusy)
+{
+    <MudOverlay Style="z-index: 9999" Visible="true" DarkBackground="true" />
+}
+
 @code {
     [Parameter] public bool IsBusy { get { return mIsBusy; } set { mIsBusy = value; } }
     [Parameter] public List<string> Errors { get { return mErrors; } set { mErrors = value; } }

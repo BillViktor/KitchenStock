@@ -3,7 +3,7 @@ using KitchenStock.Models;
 
 namespace KitchenStock.Components.ViewModels
 {
-    public class MasterViewModel
+    public class ViewModel
     {
         private readonly KitchenStockRepository mKitchenStockRepository;
 
@@ -27,7 +27,7 @@ namespace KitchenStock.Components.ViewModels
         public List<StockModel> Stock { get { return mStock; } set { mStock = value; } }
         public List<CategoryModel> Categories { get { return mCategories; } set { mCategories = value; } }
 
-        public MasterViewModel(KitchenStockRepository aKitchenStockRepository)
+        public ViewModel(KitchenStockRepository aKitchenStockRepository)
         {
             mKitchenStockRepository = aKitchenStockRepository;
         }
@@ -224,6 +224,7 @@ namespace KitchenStock.Components.ViewModels
         {
             IsBusy = true;
             bool sSuccess = true;
+            await Task.Delay(1000);
 
             try
             {

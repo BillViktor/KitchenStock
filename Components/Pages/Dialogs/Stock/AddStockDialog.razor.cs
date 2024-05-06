@@ -3,14 +3,13 @@ using KitchenStock.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
-using static MudBlazor.Colors;
 
 namespace KitchenStock.Components.Pages.Dialogs.Stock
 {
     public partial class AddStockDialog
     {
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-        [Inject] MasterViewModel MasterViewModel { get; set; }
+        [Inject] ViewModel ViewModel { get; set; }
         [Inject] ISnackbar Snackbar { get; set; }
         [Parameter] public LocationModel mLocationModel { get; set; }
 
@@ -24,7 +23,7 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
 
         protected override async Task OnInitializedAsync()
         {
-            await MasterViewModel.GetLocations();
+            await ViewModel.GetLocations();
 
             if(mLocationModel != null)
             {
@@ -47,7 +46,7 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         {
             if (!ValidateInputs()) return;
 
-            if(await MasterViewModel.AddStock(mStockModel, mQuantity))
+            if(await ViewModel.AddStock(mStockModel, mQuantity))
             {
                 MudDialog.Close();
             }
@@ -89,9 +88,9 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         /// <param name="e"></param>
         private void FindArticle(KeyboardEventArgs e)
         {
-            if (MasterViewModel.Articles.Any(x => x.EAN == mEAN))
+            if (ViewModel.Articles.Any(x => x.EAN == mEAN))
             {
-                mStockModel.Article = MasterViewModel.Articles.First(x => x.EAN == mEAN);
+                mStockModel.Article = ViewModel.Articles.First(x => x.EAN == mEAN);
             }
         }
 
@@ -103,10 +102,10 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         private async Task<IEnumerable<ArticleModel>> Search(string aValue)
         {
             // if text is null or empty, show complete list
-            if (string.IsNullOrEmpty(aValue)) return MasterViewModel.Articles;
+            if (string.IsNullOrEmpty(aValue)) return ViewModel.Articles;
 
             //Otherwise, return matching article names
-            return MasterViewModel.Articles.Where(x => x.Name.Contains(aValue, StringComparison.InvariantCultureIgnoreCase));
+            return ViewModel.Articles.Where(x => x.Name.Contains(aValue, StringComparison.InvariantCultureIgnoreCase));
         }
         #endregion
     }

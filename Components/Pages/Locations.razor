@@ -3,7 +3,7 @@
 
 <PageTitle>Locations</PageTitle>
 
-<MessageComponent Errors="MasterViewModel.Errors" SuccessMessages="MasterViewModel.SuccessMessages" IsBusy="MasterViewModel.IsBusy" />
+<MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
 
 <MudPaper Class="pa-4">
     <MudItem Class="d-flex justify-space-between">
@@ -12,7 +12,7 @@
     </MudItem>
 
     <MudItem Style="margin-top: 10px">
-        <MudTable Items="@MasterViewModel.Locations" Hover="true" Breakpoint="Breakpoint.Sm">
+        <MudTable Items="@ViewModel.Locations" Hover="true" Breakpoint="Breakpoint.Sm">
             <HeaderContent>
                 <MudTh>Id</MudTh>
                 <MudTh>Name</MudTh>

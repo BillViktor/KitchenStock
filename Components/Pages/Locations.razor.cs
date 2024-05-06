@@ -8,12 +8,12 @@ namespace KitchenStock.Components.Pages
 {
     public partial class Locations
     {
-        [Inject] MasterViewModel MasterViewModel { get; set; }
+        [Inject] ViewModel ViewModel { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            await MasterViewModel.GetLocations();
+            await ViewModel.GetLocations();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace KitchenStock.Components.Pages
 
             if (!sResult.Canceled)
             {
-                await MasterViewModel.GetLocations();
+                await ViewModel.GetLocations();
             }
         }
     }

@@ -9,7 +9,7 @@ namespace KitchenStock.Components.Pages
 {
     public partial class Home
     {
-        [Inject] MasterViewModel MasterViewModel { get; set; }
+        [Inject] ViewModel ViewModel { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
         private string? mSearchString = "";
@@ -17,9 +17,9 @@ namespace KitchenStock.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            await MasterViewModel.GetStock();
-            await MasterViewModel.GetArticles();
-            await MasterViewModel.GetLocations();
+            await ViewModel.GetStock();
+            await ViewModel.GetArticles();
+            await ViewModel.GetLocations();
         }
 
         #region CRUD
@@ -38,7 +38,7 @@ namespace KitchenStock.Components.Pages
 
             if (!sResult.Canceled)
             {
-                await MasterViewModel.GetStock();
+                await ViewModel.GetStock();
             }
         }
 
@@ -63,7 +63,7 @@ namespace KitchenStock.Components.Pages
 
             if (!sResult.Canceled)
             {
-                await MasterViewModel.GetStock();
+                await ViewModel.GetStock();
             }
         }
 
@@ -73,9 +73,9 @@ namespace KitchenStock.Components.Pages
         /// <param name="aStockModel">The stock to delete</param>
         private async Task DeleteStock(StockModel aStockModel)
         {
-            if (await MasterViewModel.RemoveStock(aStockModel))
+            if (await ViewModel.RemoveStock(aStockModel))
             {
-                await MasterViewModel.GetStock();
+                await ViewModel.GetStock();
             }
         }
 
@@ -95,9 +95,9 @@ namespace KitchenStock.Components.Pages
 
             if (sResult.Canceled) return;
 
-            if (await MasterViewModel.RemoveStock(mSelectedStock.ToList()))
+            if (await ViewModel.RemoveStock(mSelectedStock.ToList()))
             {
-                await MasterViewModel.GetStock();
+                await ViewModel.GetStock();
             }
         }
         #endregion

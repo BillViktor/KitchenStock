@@ -11,7 +11,7 @@ namespace KitchenStock.Components.Pages.Dialogs
         [Parameter] public ArticleModel mArticleModel { get; set; }
         [Parameter] public bool mNewArticle { get; set; }
 
-        [Inject] MasterViewModel MasterViewModel { get; set; }
+        [Inject] ViewModel ViewModel { get; set; }
         [Inject] ISnackbar Snackbar { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
@@ -19,7 +19,7 @@ namespace KitchenStock.Components.Pages.Dialogs
 
         protected override async Task OnInitializedAsync()
         {
-            await MasterViewModel.GetCategories();
+            await ViewModel.GetCategories();
 
             InitializeDictionary();
         }
@@ -29,7 +29,7 @@ namespace KitchenStock.Components.Pages.Dialogs
         /// </summary>
         private void InitializeDictionary()
         {
-            foreach(var sCategory in MasterViewModel.Categories)
+            foreach(var sCategory in ViewModel.Categories)
             {
                 if(mArticleModel.Categories != null && mArticleModel.Categories.Any(x => x.Id == sCategory.Id))
                 {
@@ -52,7 +52,7 @@ namespace KitchenStock.Components.Pages.Dialogs
 
             SetCategories();
 
-            if (await MasterViewModel.AddArticle(mArticleModel))
+            if (await ViewModel.AddArticle(mArticleModel))
             {
                 MudDialog.Close();
             }
@@ -67,7 +67,7 @@ namespace KitchenStock.Components.Pages.Dialogs
 
             SetCategories();
 
-            if (await MasterViewModel.UpdateArticle(mArticleModel))
+            if (await ViewModel.UpdateArticle(mArticleModel))
             {
                 MudDialog.Close();
             }
@@ -89,7 +89,7 @@ namespace KitchenStock.Components.Pages.Dialogs
 
             if (sResult.Canceled) return;
 
-            if (await MasterViewModel.RemoveArticle(mArticleModel))
+            if (await ViewModel.RemoveArticle(mArticleModel))
             {
                 MudDialog.Close();
             }

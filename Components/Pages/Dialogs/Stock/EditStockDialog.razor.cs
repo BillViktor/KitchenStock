@@ -8,12 +8,12 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
     public partial class EditStockDialog
     {
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-        [Inject] MasterViewModel MasterViewModel { get; set; }
+        [Inject] ViewModel ViewModel { get; set; }
         [Parameter] public StockModel mStockModel { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            await MasterViewModel.GetLocations();
+            await ViewModel.GetLocations();
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         /// </summary>
         private async Task Save()
         {
-            if(await MasterViewModel.UpdateStock(mStockModel))
+            if(await ViewModel.UpdateStock(mStockModel))
             {
                 MudDialog.Close();
             }

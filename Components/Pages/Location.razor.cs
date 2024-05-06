@@ -9,7 +9,7 @@ namespace KitchenStock.Components.Pages
 {
     public partial class Location
     {
-        [Inject] MasterViewModel MasterViewModel { get; set; }
+        [Inject] ViewModel ViewModel { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         [Inject] IDialogService DialogService { get; set; }
         [Parameter] public string aLocationId { get; set; }
@@ -21,11 +21,13 @@ namespace KitchenStock.Components.Pages
         /// <summary>
         /// Check that the routing leads to a valid Location, if not, navigate to index
         /// </summary>
-        protected override void OnInitialized()
+        protected override async Task OnParametersSetAsync()
         {
-            if(string.IsNullOrEmpty(aLocationId))
+            mLocationModel = null;
+
+            if (string.IsNullOrEmpty(aLocationId))
             {
-                MasterViewModel.AddError("Invalid routing!");
+                ViewModel.AddError("Invalid routing!");
                 NavigationManager.NavigateTo("/");
             }
             else
@@ -33,20 +35,25 @@ namespace KitchenStock.Components.Pages
                 int aParsedLocationId;
                 if(!int.TryParse(aLocationId, out aParsedLocationId))
                 {
-                    MasterViewModel.AddError("Invalid routing!");
+                    ViewModel.AddError("Invalid routing!");
                     NavigationManager.NavigateTo("/");
                 }
 
-                if(!MasterViewModel.Locations.Any(x => x.Id == aParsedLocationId))
+                await ViewModel.GetLocations();
+
+                if (!ViewModel.Locations.Any(x => x.Id == aParsedLocationId))
                 {
-                    MasterViewModel.AddError($"There exists no location with Id {aParsedLocationId}!");
+                    ViewModel.AddError($"There exists no location with Id {aParsedLocationId}!");
                     NavigationManager.NavigateTo("/");
                 }
                 else
                 {
-                    mLocationModel = MasterViewModel.Locations.First(x => x.Id == aParsedLocationId);
+                    mLocationModel = ViewModel.Locations.First(x => x.Id == aParsedLocationId);
                 }
             }
+
+            await ViewModel.GetStock();
+            StateHasChanged();
         }
 
         #region CRUD
@@ -69,7 +76,7 @@ namespace KitchenStock.Components.Pages
 
             if (!sResult.Canceled)
             {
-                await MasterViewModel.GetStock();
+                await ViewModel.GetStock();
             }
         }
 
@@ -94,7 +101,7 @@ namespace KitchenStock.Components.Pages
 
             if (!sResult.Canceled)
             {
-                await MasterViewModel.GetStock();
+                await ViewModel.GetStock();
             }
         }
 
@@ -104,9 +111,9 @@ namespace KitchenStock.Components.Pages
         /// <param name="aStockModel">The stock to delete</param>
         private async Task DeleteStock(StockModel aStockModel)
         {
-            if (await MasterViewModel.RemoveStock(aStockModel))
+            if (await ViewModel.RemoveStock(aStockModel))
             {
-                await MasterViewModel.GetStock();
+                await ViewModel.GetStock();
             }
         }
 
@@ -126,9 +133,9 @@ namespace KitchenStock.Components.Pages
 
             if (sResult.Canceled) return;
 
-            if (await MasterViewModel.RemoveStock(mSelectedStock.ToList()))
+            if (await ViewModel.RemoveStock(mSelectedStock.ToList()))
             {
-                await MasterViewModel.GetStock();
+                await ViewModel.GetStock();
             }
         }
         #endregion
