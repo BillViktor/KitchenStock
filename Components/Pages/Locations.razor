@@ -6,10 +6,7 @@
 <MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
 
 <MudPaper Class="pa-4">
-    <MudItem Class="d-flex justify-space-between">
-        <h1>Locations Sorted by SortOrder</h1>
-        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Success" @onclick="async () => await AddOrEditLocation(new LocationModel(), true)">Add New Location</MudButton>
-    </MudItem>
+    <MudButton FullWidth="true" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Success" @onclick="async () => await AddOrEditLocation(new LocationModel(), true)">Add New Location</MudButton>
 
     <MudItem Style="margin-top: 10px">
         <MudTable Dense="true" Striped="true" Items="@ViewModel.Locations" Filter="new Func<LocationModel, bool>(FilterFunction1)" Hover="true" Breakpoint="Breakpoint.Sm">

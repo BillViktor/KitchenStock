@@ -6,16 +6,14 @@
 <MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
 
 <MudPaper Class="pa-4">
-    <MudItem Class="d-flex justify-space-between">
-       <h1>Stock Sorted by BestBeforeDate</h1>
-       <MudStack Row="true">
-            <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Success" @onclick="async () => await AddStock()">Add New Stock</MudButton>
-            <MudButton Disabled="@(mSelectedStock.Count == 0)" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Error" @onclick="async () => await DeleteSelectedStock()">Delete Selected Items (@mSelectedStock.Count)</MudButton>
-       </MudStack>
-    </MudItem>
+    <MudStack Row="true">
+        <MudButton FullWidth="true" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Success" @onclick="async () => await AddStock()">Add New Stock</MudButton>
+        <MudButton FullWidth="true" Disabled="@(mSelectedStock.Count == 0)" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Error" @onclick="async () => await DeleteSelectedStock()">Delete Selected Items (@mSelectedStock.Count)</MudButton>
+      </MudStack>
+
     <MudTable Dense="true" @bind-SelectedItems="mSelectedStock" MultiSelection="true" Striped="true" Items="@ViewModel.Stock" Hover="true" Filter="new Func<StockModel, bool>(FilterFunction1)" Breakpoint="Breakpoint.Sm">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Stock</MudText>
+            <MudText Typo="Typo.h6">Stock in all Locations</MudText>
             <MudSpacer />
             <MudTextField Immediate="true" @bind-Value="mSearchString" Placeholder="Search (Article, Category or Location)" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
