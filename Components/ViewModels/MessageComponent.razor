@@ -1,0 +1,35 @@
+﻿@inject ISnackbar Snackbar
+
+@for (int i = 0; i < mErrors.Count; i++)
+{
+    <div>@ShowError(mErrors[i])</div>
+}
+
+@for (int i = 0; i < mSuccessMessages.Count; i++)
+{
+    <div>@ShowSuccess(mSuccessMessages[i])</div>
+}
+
+@code {
+    [Parameter] public bool IsBusy { get { return mIsBusy; } set { mIsBusy = value; } }
+    [Parameter] public List<string> Errors { get { return mErrors; } set { mErrors = value; } }
+    [Parameter] public List<string> SuccessMessages { get { return mSuccessMessages; } set { mSuccessMessages = value; } }
+
+    private bool mIsBusy = false;
+    private List<string> mErrors = new List<string>();
+    private List<string> mSuccessMessages = new List<string>();
+
+    private object ShowError(string aError)
+    {
+        Snackbar.Add(aError, Severity.Error);
+        Errors.Remove(aError);
+        return null;
+    }
+
+    private object ShowSuccess(string aMessage)
+    {
+        Snackbar.Add(aMessage, Severity.Success);
+        SuccessMessages.Remove(aMessage);
+        return null;
+    }
+}

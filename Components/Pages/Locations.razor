@@ -1,0 +1,39 @@
+﻿@page "/locations"
+@using KitchenStock.Models
+
+<PageTitle>Locations</PageTitle>
+
+<MessageComponent Errors="MasterViewModel.Errors" SuccessMessages="MasterViewModel.SuccessMessages" IsBusy="MasterViewModel.IsBusy" />
+
+<MudPaper Class="pa-4">
+    <MudItem Class="d-flex justify-space-between">
+        <h1>Locations</h1>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Success" @onclick="async () => await AddOrEditLocation(new LocationModel(), true)">Add New Location</MudButton>
+    </MudItem>
+
+    <MudItem Style="margin-top: 10px">
+        <MudTable Items="@MasterViewModel.Locations" Hover="true" Breakpoint="Breakpoint.Sm">
+            <HeaderContent>
+                <MudTh>Id</MudTh>
+                <MudTh>Name</MudTh>
+                <MudTh>SortOrder</MudTh>
+                <MudTh>Description</MudTh>
+                <MudTh>CreateDate</MudTh>
+                <MudTh>UpdateDate</MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Id">@context.Id</MudTd>
+                    <MudTd DataLabel="Name">@context.Name</MudTd>
+                    <MudTd DataLabel="Description">@context.Description</MudTd>
+                    <MudTd DataLabel="SortOrder">@context.SortOrder</MudTd>
+                    <MudTd DataLabel="CreateDate">@context.CreateDate</MudTd>
+                    <MudTd DataLabel="UpdateDate">@context.UpdateDate</MudTd>
+                    <MudTd DataLabel="">
+                        <MudButton StartIcon="@Icons.Material.Filled.Edit" FullWidth="true" Variant="Variant.Filled" Color="Color.Warning" @onclick="async () => await AddOrEditLocation(context, false)">Edit</MudButton>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudItem>
+</MudPaper>
+

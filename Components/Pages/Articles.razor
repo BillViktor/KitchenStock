@@ -1,0 +1,40 @@
+﻿@page "/articles"
+@using KitchenStock.Models
+
+<PageTitle>Articles</PageTitle>
+
+<MessageComponent Errors="MasterViewModel.Errors" SuccessMessages="MasterViewModel.SuccessMessages" IsBusy="MasterViewModel.IsBusy" />
+
+<MudPaper Class="pa-4">
+    <MudItem Class="d-flex justify-space-between">
+        <h1>Articles</h1>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Success" @onclick="() => AddOrEditArticle(new ArticleModel(), true)">Add New Article</MudButton>
+    </MudItem>
+
+    <MudItem Style="margin-top: 10px">
+        <MudTable Items="@MasterViewModel.Articles" Hover="true" Breakpoint="Breakpoint.Sm">
+            <HeaderContent>
+                <MudTh>Id</MudTh>
+                <MudTh>Name</MudTh>
+                <MudTh>Description</MudTh>
+                <MudTh>EAN</MudTh>
+                <MudTh>Categories</MudTh>
+                <MudTh>CreateDate</MudTh>
+                <MudTh>UpdateDate</MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Id">@context.Id</MudTd>
+                    <MudTd DataLabel="Name">@context.Name</MudTd>
+                    <MudTd DataLabel="Description">@context.Description</MudTd>
+                    <MudTd DataLabel="EAN">@context.EAN</MudTd>
+                    <MudTd DataLabel="Categories">@context.GetCategoryString()</MudTd>
+                    <MudTd DataLabel="CreateDate">@context.CreateDate</MudTd>
+                    <MudTd DataLabel="UpdateDate">@context.UpdateDate</MudTd>
+                    <MudTd DataLabel="">
+                        <MudButton StartIcon="@Icons.Material.Filled.Edit" FullWidth="true" Variant="Variant.Filled" Color="Color.Warning" @onclick="async () => await AddOrEditArticle(context, false)">Edit</MudButton>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudItem>
+</MudPaper>

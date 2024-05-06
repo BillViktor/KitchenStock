@@ -1,6 +1,14 @@
 ﻿<MudNavMenu>
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
-    <MudNavLink Href="weather" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Weather</MudNavLink>
-
+    <MudNavGroup Icon="@Icons.Material.Filled.Kitchen" Title="Locations" Expanded="true">
+        @foreach (var sLocation in MasterViewModel.Locations)
+        {
+            <MudNavLink Match="NavLinkMatch.Prefix" Href="@sLocation.GetLocationUrl()">@sLocation.Name</MudNavLink>
+        }
+    </MudNavGroup>
+    <MudNavGroup Icon="@Icons.Material.Filled.Settings" Title="Settings" Expanded="false">
+        <MudNavLink Href="articles" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FoodBank">Articles</MudNavLink>
+        <MudNavLink Href="categories" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Category">Categories</MudNavLink>
+        <MudNavLink Href="locations" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Map">Locations</MudNavLink>
+    </MudNavGroup>
 </MudNavMenu>

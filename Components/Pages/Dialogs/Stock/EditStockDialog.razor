@@ -1,0 +1,31 @@
+﻿@using Models
+
+<MudDialog>
+   <DialogContent>
+      <MudItem>
+         <MudItem Style="margin-top: 10px">
+               <MudText>Location</MudText>
+                <MudSelect @bind-Value="mStockModel.Location" Variant="Variant.Filled" T="LocationModel" Label="Location" AnchorOrigin="Origin.BottomCenter">
+                    @foreach(var sLocation in MasterViewModel.Locations)
+                    {
+                        <MudSelectItem Value="@sLocation">@sLocation.Name</MudSelectItem>
+                    }
+                </MudSelect>
+         </MudItem>
+
+         <MudItem Style="margin-top: 10px">
+               <MudDatePicker Variant="Variant.Filled" AnchorOrigin="Origin.TopLeft" Label="Best Before Date" @bind-Date="mStockModel.BestBeforeDate" />
+         </MudItem>
+
+         <MudItem Style="margin-top: 10px">
+                <MudSlider @bind-Value="mStockModel.PercentageLeft" Min="0" Max="100" Step="5" TickMarks="true" Immediate="true" Size="Size.Medium" Variant="Variant.Filled">Percentage Left</MudSlider>
+         </MudItem>
+
+         <MudStack Style="margin-top: 20px" Row="true">
+                <MudButton @onclick="async () => await Save()" Variant="Variant.Filled" Color="Color.Success" FullWidth="true">Save</MudButton>
+               <MudButton @onclick="Cancel" Variant="Variant.Filled" Color="Color.Warning" FullWidth="true">Cancel</MudButton>
+         </MudStack>
+      </MudItem>
+        
+   </DialogContent>
+</MudDialog>

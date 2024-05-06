@@ -1,0 +1,117 @@
+﻿using KitchenStock.Components.Pages.Dialogs.Stock;
+using KitchenStock.Components.ViewModels;
+using KitchenStock.Models;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
+
+namespace KitchenStock.Components.Pages
+{
+    public partial class Home
+    {
+        [Inject] MasterViewModel MasterViewModel { get; set; }
+        [Inject] IDialogService DialogService { get; set; }
+
+        private string? mSearchString = "";
+        private HashSet<StockModel> mSelectedStock = new HashSet<StockModel>();
+
+        protected override async Task OnInitializedAsync()
+        {
+            await MasterViewModel.GetStock();
+            await MasterViewModel.GetArticles();
+            await MasterViewModel.GetLocations();
+        }
+
+        #region CRUD
+        /// <summary>
+        /// Shows a dialog for adding stock
+        /// </summary>
+        private async Task AddStock()
+        {
+            var sOptions = new DialogOptions
+            {
+                FullWidth = true
+            };
+
+            var sDialog = await DialogService.ShowAsync<AddStockDialog>("Add New Stock", sOptions);
+            var sResult = await sDialog.Result;
+
+            if (!sResult.Canceled)
+            {
+                await MasterViewModel.GetStock();
+            }
+        }
+
+        /// <summary>
+        /// Shows a dialog for editing stock
+        /// </summary>
+        /// <param name="aStockModel">The stock to edit</param>
+        private async Task EditStock(StockModel aStockModel)
+        {
+            var sOptions = new DialogOptions
+            {
+                FullWidth = true
+            };
+
+            var sParameters = new DialogParameters
+            {
+                { "mStockModel", aStockModel }
+            };
+
+            var sDialog = await DialogService.ShowAsync<EditStockDialog>("Add New Stock", sParameters, sOptions);
+            var sResult = await sDialog.Result;
+
+            if (!sResult.Canceled)
+            {
+                await MasterViewModel.GetStock();
+            }
+        }
+
+        /// <summary>
+        /// Deletes stock
+        /// </summary>
+        /// <param name="aStockModel">The stock to delete</param>
+        private async Task DeleteStock(StockModel aStockModel)
+        {
+            if (await MasterViewModel.RemoveStock(aStockModel))
+            {
+                await MasterViewModel.GetStock();
+            }
+        }
+
+        /// <summary>
+        /// Deletes the selected stock
+        /// </summary>
+        private async Task DeleteSelectedStock()
+        {
+            if (await MasterViewModel.RemoveStock(mSelectedStock.ToList()))
+            {
+                await MasterViewModel.GetStock();
+            }
+        }
+        #endregion
+
+
+        #region Helpers
+        private bool FilterFunction1(StockModel aStockModel) => FilterFunction2(aStockModel, mSearchString);
+
+        /// <summary>
+        /// Returns true if the string properties of the StockModel contains the search string
+        /// </summary>
+        /// <param name="aStockModel">The stock</param>
+        /// <param name="mSearchString">The search string</param>
+        /// <returns>True if it any specified property contains the search string, false otherwise</returns>
+        private bool FilterFunction2(StockModel aStockModel, string mSearchString)
+        {
+            if (string.IsNullOrWhiteSpace(mSearchString))
+                return true;
+            if (aStockModel.Article.Name.Contains(mSearchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (aStockModel.Article.GetCategoryString().Contains(mSearchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (aStockModel.Location.Name.Contains(mSearchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
+        }
+        #endregion
+    }
+}

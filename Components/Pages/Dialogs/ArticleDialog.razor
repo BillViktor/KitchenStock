@@ -1,0 +1,51 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudItem Style="width: 500px">
+            <MudItem>
+                <MudText>Name</MudText>
+                <MudInput style="width: 100%" HelperText="Name" Variant="Variant.Filled" @bind-Value="mArticleModel.Name" />
+            </MudItem>
+
+            <MudItem Style="margin-top: 10px">
+                <MudText>Description</MudText>
+                <MudInput style="width: 100%" Lines="3" HelperText="Description" Variant="Variant.Filled" @bind-Value="mArticleModel.Description" />
+            </MudItem>
+
+            <MudItem Style="margin-top: 10px">
+                <MudText>EAN</MudText>
+                <MudInput style="width: 100%" HelperText="EAN" Variant="Variant.Filled" @bind-Value="mArticleModel.EAN" />
+            </MudItem>
+
+            <MudItem Style="margin-top: 10px">
+                <MudText>Categories</MudText>
+                <MudItem Style="max-height: 300px; overflow-y: auto">
+                    @foreach (var sCategory in MasterViewModel.Categories)
+                    {
+                        @if (mCategoryIdAndAdded.ContainsKey(sCategory))
+                        {
+                            <MudStack Row="true">
+                                <MudCheckBox @bind-Value="mCategoryIdAndAdded[sCategory]" T="bool" />
+                                <MudText Style="margin-top: 12px">@sCategory.Name</MudText>
+                                </MudStack>
+                        }
+                    }
+                </MudItem>
+            </MudItem>
+
+            <MudStack Style="margin-top: 20px" Row="true">
+                @if (mNewArticle)
+                {
+                    <MudButton @onclick="async () => await Add()" Variant="Variant.Filled" Color="Color.Success" FullWidth="true">Add</MudButton>
+                }
+                else
+                {
+                    <MudButton @onclick="async () => await Update()" Variant="Variant.Filled" Color="Color.Success" FullWidth="true">Update</MudButton>
+                    <MudButton @onclick="async () => await Delete()" Variant="Variant.Filled" Color="Color.Error" FullWidth="true">Delete</MudButton>
+                }
+                <MudButton @onclick="Cancel" Variant="Variant.Filled" Color="Color.Warning" FullWidth="true">Cancel</MudButton>
+            </MudStack>
+        </MudItem>
+
+    </DialogContent>
+</MudDialog>
+

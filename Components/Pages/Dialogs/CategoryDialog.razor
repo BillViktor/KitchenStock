@@ -1,0 +1,30 @@
+﻿<MudDialog>
+   <DialogContent>
+      <MudItem Style="width: 500px">
+         <MudItem>
+                <MudText>Name</MudText>
+                <MudInput style="width: 100%" HelperText="Name" Variant="Variant.Filled" @bind-Value="mCategoryModel.Name" />
+         </MudItem>
+
+         <MudItem Style="margin-top: 10px">
+                <MudText>Description</MudText>
+                <MudInput style="width: 100%" Lines="3" HelperText="Description" Variant="Variant.Filled" @bind-Value="mCategoryModel.Description" />
+         </MudItem>
+
+         <MudStack Style="margin-top: 20px" Row="true">
+               @if (mNewCategory)
+               {
+                  <MudButton @onclick="async () => await Add()" Variant="Variant.Filled" Color="Color.Success" FullWidth="true">Add</MudButton>
+               }
+               else
+               {
+                  <MudButton @onclick="async () => await Update()" Variant="Variant.Filled" Color="Color.Success" FullWidth="true">Update</MudButton>
+                  <MudButton @onclick="async () => await Delete()" Variant="Variant.Filled" Color="Color.Error" FullWidth="true">Delete</MudButton>
+               }
+               <MudButton @onclick="Cancel" Variant="Variant.Filled" Color="Color.Warning" FullWidth="true">Cancel</MudButton>
+         </MudStack>
+      </MudItem>
+        
+   </DialogContent>
+</MudDialog>
+

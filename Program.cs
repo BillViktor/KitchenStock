@@ -1,4 +1,7 @@
 using KitchenStock.Components;
+using KitchenStock.Components.ViewModels;
+using KitchenStock.Data;
+using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +12,14 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddMudServices();
 
+builder.Services.AddDbContext<KitchenStockDbContext> (option =>
+    option.UseSqlServer(builder.Configuration.GetConnectionString("KitchenStockDatabase"))); 
+
+builder.Services.AddScoped<KitchenStockRepository>();
+builder.Services.AddScoped<MasterViewModel>();
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
