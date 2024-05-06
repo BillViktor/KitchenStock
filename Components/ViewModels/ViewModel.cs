@@ -36,6 +36,8 @@ namespace KitchenStock.Components.ViewModels
         #region Articles
         public async Task GetArticles()
         {
+            IsBusy = true;
+
             try
             {
                 mArticles = await mKitchenStockRepository.GetArticles();
@@ -43,6 +45,10 @@ namespace KitchenStock.Components.ViewModels
             catch(Exception ex)
             {
                 mErrors.Add(ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
@@ -61,6 +67,10 @@ namespace KitchenStock.Components.ViewModels
             {
                 sSuccess = false;
                 mErrors.Add(ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
             }
 
             return sSuccess;
@@ -82,6 +92,10 @@ namespace KitchenStock.Components.ViewModels
                 sSuccess = false;
                 mErrors.Add(ex.Message);
             }
+            finally
+            {
+                IsBusy = false;
+            }
 
             return sSuccess;
         }
@@ -101,6 +115,10 @@ namespace KitchenStock.Components.ViewModels
             {
                 sSuccess = false;
                 mErrors.Add(ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
             }
 
             return sSuccess;
@@ -353,6 +371,10 @@ namespace KitchenStock.Components.ViewModels
             {
                 sSuccess = false;
                 mErrors.Add(ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
             }
 
             return sSuccess;
