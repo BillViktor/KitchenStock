@@ -12,6 +12,7 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
         [Inject] MasterViewModel MasterViewModel { get; set; }
         [Inject] ISnackbar Snackbar { get; set; }
+        [Parameter] public LocationModel mLocationModel { get; set; }
 
         private StockModel mStockModel = new StockModel
         {
@@ -24,6 +25,11 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         protected override async Task OnInitializedAsync()
         {
             await MasterViewModel.GetLocations();
+
+            if(mLocationModel != null)
+            {
+                mStockModel.Location = mLocationModel;
+            }
         }
 
         /// <summary>

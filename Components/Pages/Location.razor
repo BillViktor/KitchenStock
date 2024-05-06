@@ -1,2 +1,58 @@
 ﻿@page "/location"
 @page "/location/{aLocationId}"
+@using KitchenStock.Models
+
+<PageTitle>@(mLocationModel == null ? "" : mLocationModel.Name)</PageTitle>
+
+<MessageComponent Errors="MasterViewModel.Errors" SuccessMessages="MasterViewModel.SuccessMessages" IsBusy="MasterViewModel.IsBusy" />
+
+@if(mLocationModel != null)
+{
+    <MudPaper Class="pa-4">
+        <MudItem Class="d-flex justify-space-between">
+            <h1>Stock in @mLocationModel.Name Sorted by BestBeforeDate</h1>
+            <MudStack Row="true">
+                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Success" @onclick="async () => await AddStock()">Add New Stock</MudButton>
+                <MudButton Disabled="@(mSelectedStock.Count == 0)" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Error" @onclick="async () => await DeleteSelectedStock()">Delete Selected Items (@mSelectedStock.Count)</MudButton>
+                </MudStack>
+            </MudItem>
+            <MudTable @bind-SelectedItems="mSelectedStock" MultiSelection="true" Striped="true" Items="@MasterViewModel.Stock.Where(x => x.LocationId == mLocationModel.Id)" Hover="true" Filter="new Func<StockModel, bool>(FilterFunction1)" Breakpoint="Breakpoint.Sm">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Stock</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="mSearchString" Placeholder="Search (Article, Category or Location)" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.Article.Name)">Article</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.Article.GetCategoryString())">Categories</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.Location.Name)">Location</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<StockModel, object>(x=>x.BestBeforeDate)">Best Before Date</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.PercentageLeft)">PercentageLeft</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.CreateDate)">CreateDate</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.UpdateDate)">UpdateDate</MudTableSortLabel></MudTh>
+                    <MudTh></MudTh>
+                    <MudTh></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Id">@context.Id</MudTd>
+                    <MudTd DataLabel="Name">@context.Article.Name</MudTd>
+                    <MudTd DataLabel="Name">@context.Article.GetCategoryString()</MudTd>
+                    <MudTd DataLabel="Name">@context.Location.Name</MudTd>
+                    <MudTd DataLabel="Name">@context.BestBeforeDate</MudTd>
+                    <MudTd DataLabel="Name">@context.PercentageLeft</MudTd>
+                    <MudTd DataLabel="CreateDate">@context.CreateDate</MudTd>
+                    <MudTd DataLabel="UpdateDate">@context.UpdateDate</MudTd>
+                    <MudTd DataLabel="">
+                        <MudButton @onclick="async () => await EditStock(context)" StartIcon="@Icons.Material.Filled.Edit" FullWidth="true" Variant="Variant.Filled" Color="Color.Warning">Edit</MudButton>
+                    </MudTd>
+                    <MudTd DataLabel="">
+                        <MudButton @onclick="async () => await DeleteStock(context)" StartIcon="@Icons.Material.Filled.Delete" FullWidth="true" Variant="Variant.Filled" Color="Color.Error">Delete</MudButton>
+                    </MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                </PagerContent>
+            </MudTable>
+        </MudPaper>
+}
