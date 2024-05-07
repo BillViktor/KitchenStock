@@ -35,7 +35,7 @@
                   <MudTd DataLabel="Name">@context.Article.Name</MudTd>
                   <MudTd DataLabel="Name">@context.Article.GetCategoryString()</MudTd>
                   <MudTd DataLabel="Name">@context.Location.Name</MudTd>
-                    <MudTd Style="@Styling.GetBestBeforeDateStylingForStock(context.BestBeforeDate)" DataLabel="Name">@context.BestBeforeDate.Value.ToString("yyyy-MM-dd")</MudTd>
+                    <MudTd Style="@BestBeforeDateStyling.GetBestBeforeDateStylingForStock(context.BestBeforeDate)" DataLabel="Name">@context.BestBeforeDate.Value.ToString("yyyy-MM-dd")</MudTd>
                   <MudTd DataLabel="Name">@context.PercentageLeft</MudTd>
                   <MudTd DataLabel="CreateDate">@context.CreateDate</MudTd>
                   <MudTd DataLabel="UpdateDate">@context.UpdateDate</MudTd>

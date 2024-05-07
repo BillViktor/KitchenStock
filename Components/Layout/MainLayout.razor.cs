@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace KitchenStock.Components.Layout
 {
@@ -7,15 +8,26 @@ namespace KitchenStock.Components.Layout
     {
         [Inject] ILocalStorageService LocalStorageService { get; set; }
 
+        //Fields
         private bool mDraweropen = true;
         private bool mDarkMode = true;
+        private MudTheme mCustomTheme = new MudTheme //Custom MudTheme
+        {
+            Palette =
+            {
+                AppbarBackground = "#5BB450",
+            }
+        };
+
 
         /// <summary>
-        /// On the first render, get the darkMode setting in LocalStorage and update the theme if necessary
+        /// Get darkMode setting from localstorage and update the UI.
+        /// OnInitializedAsync is called twice, once on server side and once on local side
+        /// Try/catch catches the exception on server side
         /// </summary>
-        protected override async Task OnAfterRenderAsync(bool aFirstRender)
+        protected override async Task OnInitializedAsync()
         {
-            if (aFirstRender)
+            try
             {
                 if (await LocalStorageService.ContainKeyAsync("darkMode"))
                 {
@@ -23,10 +35,10 @@ namespace KitchenStock.Components.Layout
                     if (!sResult)
                     {
                         mDarkMode = false;
-                        StateHasChanged();
                     }
                 }
             }
+            catch { }
         }
 
         /// <summary>

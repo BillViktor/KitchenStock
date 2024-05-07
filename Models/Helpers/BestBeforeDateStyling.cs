@@ -1,6 +1,6 @@
 ﻿namespace KitchenStock.Models.Helpers
 {
-    public static class Styling
+    public static class BestBeforeDateStyling
     {
         //The limit before showing a warning on the stock
         private static TimeSpan mTimeInDaysBeforeWarning = TimeSpan.FromDays(2);

@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider IsDarkMode="mDarkMode" />
+<MudThemeProvider Theme="mCustomTheme" IsDarkMode="mDarkMode" />
 <MudSnackbarProvider  />
 <MudDialogProvider />
 
@@ -12,7 +12,7 @@
         <MudSpacer/>
         <MudItem Class="d-flex row align-center">
            <MudIcon Style="margin-right: 5px" Icon="@Icons.Material.Filled.LightMode"/>
-            <MudSwitch @bind-Value="mDarkMode" Color="Color.Primary" />
+            <MudSwitch @onclick="async () => await DarkModeToggle()" Value="mDarkMode" Color="Color.Primary" />
             <MudIcon Style="margin-left: -15px" Icon="@Icons.Material.Filled.DarkMode" />
         </MudItem>
     </MudAppBar>
