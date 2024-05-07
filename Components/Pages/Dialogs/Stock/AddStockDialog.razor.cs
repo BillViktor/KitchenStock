@@ -101,6 +101,7 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         /// <returns>All ArticleModels with matching name</returns>
         private async Task<IEnumerable<ArticleModel>> Search(string aValue)
         {
+            await Task.Delay(0);
             // if text is null or empty, show complete list
             if (string.IsNullOrEmpty(aValue)) return ViewModel.Articles;
 

@@ -11,7 +11,7 @@ namespace KitchenStock.Components.Pages
         [Inject] ViewModel ViewModel { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
-        private string? mSearchString = "";
+        private string mSearchString = "";
 
         /// <summary>
         /// Get Categories on page initilization

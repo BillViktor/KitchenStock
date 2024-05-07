@@ -14,7 +14,7 @@ namespace KitchenStock.Components.Pages
         [Inject] IDialogService DialogService { get; set; }
         [Parameter] public string aLocationId { get; set; }
 
-        private string? mSearchString = "";
+        private string mSearchString = "";
         private HashSet<StockModel> mSelectedStock = new HashSet<StockModel>();
         private LocationModel mLocationModel { get; set; }
 

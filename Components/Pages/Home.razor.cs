@@ -12,7 +12,7 @@ namespace KitchenStock.Components.Pages
         [Inject] ViewModel ViewModel { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
-        private string? mSearchString = "";
+        private string mSearchString = "";
         private HashSet<StockModel> mSelectedStock = new HashSet<StockModel>();
 
         protected override async Task OnInitializedAsync()
