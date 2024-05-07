@@ -20,6 +20,7 @@ namespace KitchenStock.Components.Pages
         protected override async Task OnInitializedAsync()
         {
             await ViewModel.GetCategories();
+            await ViewModel.GetLocations(); //Get Locations (for navmenu)
         }
 
         /// <summary>
