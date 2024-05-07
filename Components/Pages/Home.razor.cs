@@ -12,9 +12,14 @@ namespace KitchenStock.Components.Pages
         [Inject] ViewModel ViewModel { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
+        //Fields
         private string mSearchString = "";
-        private HashSet<StockModel> mSelectedStock = new HashSet<StockModel>();
+        private HashSet<StockModel> mSelectedStock = new HashSet<StockModel>(); //HashSet of all Selected Stock in the table
 
+        /// <summary>
+        /// On intitialization, get all stock, articles and locatons
+        /// </summary>
+        /// <returns></returns>
         protected override async Task OnInitializedAsync()
         {
             await ViewModel.GetStock();

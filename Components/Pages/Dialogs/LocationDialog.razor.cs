@@ -8,12 +8,13 @@ namespace KitchenStock.Components.Pages.Dialogs
     public partial class LocationDialog
     {
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-        [Parameter] public LocationModel mLocationModel { get; set; }
-        [Parameter] public bool mNewLocation { get; set; }
-
         [Inject] ViewModel ViewModel { get; set; }
         [Inject] ISnackbar Snackbar { get; set; }
         [Inject] IDialogService DialogService { get; set; }
+
+        //Parameters
+        [Parameter] public LocationModel mLocationModel { get; set; }
+        [Parameter] public bool mNewLocation { get; set; }
 
         #region CRUD
         /// <summary>

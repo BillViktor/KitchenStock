@@ -13,14 +13,20 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         [Inject] ISnackbar Snackbar { get; set; }
         [Parameter] public LocationModel mLocationModel { get; set; }
 
+        //Private fields
+        private int mQuantity = 1;
+        private string mEAN = "";
         private StockModel mStockModel = new StockModel
         {
             BestBeforeDate = DateTime.Now,
             PercentageLeft = 100,
         };
-        private int mQuantity = 1;
-        private string mEAN = "";
+        
 
+        /// <summary>
+        /// On onitialization, get all Locations and check of we have a LocationModel as a paremter, if so, set the StockModels Location to the parameters LocationModel
+        /// </summary>
+        /// <returns></returns>
         protected override async Task OnInitializedAsync()
         {
             await ViewModel.GetLocations();

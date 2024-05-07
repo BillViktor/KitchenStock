@@ -8,15 +8,21 @@ namespace KitchenStock.Components.Pages.Dialogs
     public partial class ArticleDialog
     {
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-        [Parameter] public ArticleModel mArticleModel { get; set; }
-        [Parameter] public bool mNewArticle { get; set; }
-
         [Inject] ViewModel ViewModel { get; set; }
         [Inject] ISnackbar Snackbar { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
-        Dictionary<CategoryModel, bool> mCategoryIdAndAdded = new Dictionary<CategoryModel, bool>();
+        //Parameters
+        [Parameter] public ArticleModel mArticleModel { get; set; }
+        [Parameter] public bool mNewArticle { get; set; }
 
+        //Field
+        private Dictionary<CategoryModel, bool> mCategoryIdAndAdded = new Dictionary<CategoryModel, bool>();
+
+        /// <summary>
+        /// On initialization, get all categories and initialize the dictionary
+        /// </summary>
+        /// <returns></returns>
         protected override async Task OnInitializedAsync()
         {
             await ViewModel.GetCategories();

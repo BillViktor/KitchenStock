@@ -11,6 +11,10 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         [Inject] ViewModel ViewModel { get; set; }
         [Parameter] public StockModel mStockModel { get; set; }
 
+        /// <summary>
+        /// Get all Locations on initialization
+        /// </summary>
+        /// <returns></returns>
         protected override async Task OnInitializedAsync()
         {
             await ViewModel.GetLocations();

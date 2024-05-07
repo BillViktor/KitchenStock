@@ -8,12 +8,13 @@ namespace KitchenStock.Components.Pages.Dialogs
     public partial class CategoryDialog
     {
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-        [Parameter] public CategoryModel mCategoryModel { get; set; }
-        [Parameter] public bool mNewCategory { get; set; }
-
         [Inject] ViewModel ViewModel { get; set; }
         [Inject] ISnackbar Snackbar { get; set; }
         [Inject] IDialogService DialogService { get; set; }
+
+        //Parameters
+        [Parameter] public CategoryModel mCategoryModel { get; set; }
+        [Parameter] public bool mNewCategory { get; set; }
 
 
         #region CRUD

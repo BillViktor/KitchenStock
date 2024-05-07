@@ -12,19 +12,24 @@ namespace KitchenStock.Components.Pages
         [Inject] ViewModel ViewModel { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         [Inject] IDialogService DialogService { get; set; }
+
+        //Parameter
         [Parameter] public string aLocationId { get; set; }
 
+        //Fields
         private string mSearchString = "";
-        private HashSet<StockModel> mSelectedStock = new HashSet<StockModel>();
-        private LocationModel mLocationModel { get; set; }
+        private HashSet<StockModel> mSelectedStock = new HashSet<StockModel>(); //Keeps track of all selected stock in the table
+        private LocationModel mLocationModel { get; set; } //Keeps track of the current LocationModel
 
         /// <summary>
         /// Check that the routing leads to a valid Location, if not, navigate to index
         /// </summary>
         protected override async Task OnParametersSetAsync()
         {
+            //Set the LocationModel to null
             mLocationModel = null;
 
+            //Make sure that the routing parameter has a value, if not, route to index and show error
             if (string.IsNullOrEmpty(aLocationId))
             {
                 ViewModel.AddError("Invalid routing!");
@@ -32,6 +37,7 @@ namespace KitchenStock.Components.Pages
             }
             else
             {
+                //Make sure that the routing parameter is an int (we're looking for a LocationModelId)
                 int aParsedLocationId;
                 if(!int.TryParse(aLocationId, out aParsedLocationId))
                 {
@@ -39,8 +45,10 @@ namespace KitchenStock.Components.Pages
                     NavigationManager.NavigateTo("/");
                 }
 
+                //Get all locations
                 await ViewModel.GetLocations();
 
+                //Make sure that the Location exists
                 if (!ViewModel.Locations.Any(x => x.Id == aParsedLocationId))
                 {
                     ViewModel.AddError($"There exists no location with Id {aParsedLocationId}!");
@@ -48,10 +56,12 @@ namespace KitchenStock.Components.Pages
                 }
                 else
                 {
+                    //Set the LocationModel
                     mLocationModel = ViewModel.Locations.First(x => x.Id == aParsedLocationId);
                 }
             }
 
+            //All OK, get the stock and re-render
             await ViewModel.GetStock();
             StateHasChanged();
         }
