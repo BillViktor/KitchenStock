@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using KitchenStock.Components;
 using KitchenStock.Components.ViewModels;
 using KitchenStock.Data;
@@ -12,11 +13,19 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddMudServices();
 
+#region Database
+//Add DbContext and set connectionstring
 builder.Services.AddDbContext<KitchenStockDbContext> (option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("KitchenStockDatabase"))); 
 
 builder.Services.AddScoped<KitchenStockRepository>();
+#endregion
+
+//Register the ViewModel as a Service
 builder.Services.AddScoped<ViewModel>();
+
+//Add Blazored LocalStorage
+builder.Services.AddBlazoredLocalStorage();
 
 var app = builder.Build();
 

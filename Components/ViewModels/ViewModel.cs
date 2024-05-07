@@ -27,6 +27,7 @@ namespace KitchenStock.Components.ViewModels
         public List<StockModel> Stock { get { return mStock; } set { mStock = value; } }
         public List<CategoryModel> Categories { get { return mCategories; } set { mCategories = value; } }
 
+        //Constructor
         public ViewModel(KitchenStockRepository aKitchenStockRepository)
         {
             mKitchenStockRepository = aKitchenStockRepository;
@@ -34,13 +35,17 @@ namespace KitchenStock.Components.ViewModels
 
 
         #region Articles
+        /// <summary>
+        /// Gets all ArticleModels from the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// </summary>
         public async Task GetArticles()
         {
             IsBusy = true;
 
             try
             {
-                mArticles = await mKitchenStockRepository.GetArticles();
+                mArticles = await mKitchenStockRepository.GetArticlesWithCategories();
             }
             catch(Exception ex)
             {
@@ -52,6 +57,13 @@ namespace KitchenStock.Components.ViewModels
             }
         }
 
+        /// <summary>
+        /// Adds an ArticleModel to the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aArticleModel">The ArticleModel to add</param>
+        /// <returns>True if successfully added, false otherwise</returns>
         public async Task<bool> AddArticle(ArticleModel aArticleModel)
         {
             IsBusy = true;
@@ -76,6 +88,13 @@ namespace KitchenStock.Components.ViewModels
             return sSuccess;
         }
 
+        /// <summary>
+        /// Updates an ArticleModel in the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aArticleModel">The ArticleModel to update</param>
+        /// <returns>True if successfully updated, false otherwise</returns>
         public async Task<bool> UpdateArticle(ArticleModel aArticleModel)
         {
             IsBusy = true;
@@ -100,6 +119,13 @@ namespace KitchenStock.Components.ViewModels
             return sSuccess;
         }
 
+        /// <summary>
+        /// Removes an ArticleModel in the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aArticleModel">The ArticleModel to remove</param>
+        /// <returns>True if successfully removed, false otherwise</returns>
         public async Task<bool> RemoveArticle(ArticleModel aArticleModel)
         {
             IsBusy = true;
@@ -127,6 +153,10 @@ namespace KitchenStock.Components.ViewModels
 
 
         #region Categories
+        /// <summary>
+        /// Gets all CategoryModels from the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// </summary>
         public async Task GetCategories()
         {
             IsBusy = true;
@@ -145,6 +175,13 @@ namespace KitchenStock.Components.ViewModels
             }
         }
 
+        /// <summary>
+        /// Adds a CategoryModel in the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aCategoryModel">The CategoryModel to add</param>
+        /// <returns>True if successfully added, false otherwise</returns>
         public async Task<bool> AddCategory(CategoryModel aCategoryModel)
         {
             IsBusy = true;
@@ -169,6 +206,13 @@ namespace KitchenStock.Components.ViewModels
             return sSuccess;
         }
 
+        /// <summary>
+        /// Updates a CategoryModel in the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aCategoryModel">The CategoryModel to update</param>
+        /// <returns>True if successfully updated, false otherwise</returns>
         public async Task<bool> UpdateCategory(CategoryModel aCategoryModel)
         {
             IsBusy = true;
@@ -193,6 +237,13 @@ namespace KitchenStock.Components.ViewModels
             return sSuccess;
         }
 
+        /// <summary>
+        /// Removes a CategoryModel in the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aCategoryModel">The CategoryModel to remove</param>
+        /// <returns>True if successfully removed, false otherwise</returns>
         public async Task<bool> RemoveCategory(CategoryModel aCategoryModel)
         {
             IsBusy = true;
@@ -220,6 +271,10 @@ namespace KitchenStock.Components.ViewModels
 
 
         #region Locations
+        /// <summary>
+        /// Gets all Locations from the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// </summary>
         public async Task GetLocations()
         {
             IsBusy = true;
@@ -238,6 +293,13 @@ namespace KitchenStock.Components.ViewModels
             }
         }
 
+        /// <summary>
+        /// Adds a LocationModel in the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aLocationModel">The LocationModel to update</param>
+        /// <returns>True if successfully added, false otherwise</returns>
         public async Task<bool> AddLocation(LocationModel aLocationModel)
         {
             IsBusy = true;
@@ -263,6 +325,13 @@ namespace KitchenStock.Components.ViewModels
             return sSuccess;
         }
 
+        /// <summary>
+        /// Updates a LocationModel in the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aLocationModel">The LocationModel to update</param>
+        /// <returns>True if successfully updated, false otherwise</returns>
         public async Task<bool> UpdateLocation(LocationModel aLocationModel)
         {
             IsBusy = true;
@@ -287,6 +356,13 @@ namespace KitchenStock.Components.ViewModels
             return sSuccess;
         }
 
+        /// <summary>
+        /// Removes a LocationModel in the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aLocationModel">The LocationModel to remove</param>
+        /// <returns>True if successfully remove, false otherwise</returns>
         public async Task<bool> RemoveLocation(LocationModel aLocationModel)
         {
             IsBusy = true;
@@ -314,6 +390,10 @@ namespace KitchenStock.Components.ViewModels
 
 
         #region Stock
+        /// <summary>
+        /// Gets all StockModel from the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// </summary>
         public async Task GetStock()
         {
             IsBusy = true;
@@ -332,6 +412,14 @@ namespace KitchenStock.Components.ViewModels
             }
         }
 
+        /// <summary>
+        /// Adds a StockModel in the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aStockModel">The StockModel to add</param>
+        /// <param name="aQuantity">The Quantity of the StockModel to add</param>
+        /// <returns>True if successfully added, false otherwise</returns>
         public async Task<bool> AddStock(StockModel aStockModel, int aQuantity)
         {
             IsBusy = true;
@@ -356,6 +444,13 @@ namespace KitchenStock.Components.ViewModels
             return sSuccess;
         }
 
+        /// <summary>
+        /// Updates a StockModel in the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aStockModel">The StockModel to update</param>
+        /// <returns>True if successfully updated, false otherwise</returns>
         public async Task<bool> UpdateStock(StockModel aStockModel)
         {
             IsBusy = true;
@@ -380,6 +475,13 @@ namespace KitchenStock.Components.ViewModels
             return sSuccess;
         }
 
+        /// <summary>
+        /// Removes a StockModel in the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aStockModel">The StockModel to remove</param>
+        /// <returns>True if successfully removed, false otherwise</returns>
         public async Task<bool> RemoveStock(StockModel aStockModel)
         {
             IsBusy = true;
@@ -404,6 +506,13 @@ namespace KitchenStock.Components.ViewModels
             return sSuccess;
         }
 
+        /// <summary>
+        /// Removes a list of StockModels from the repository
+        /// If an exception occurs, the message is added to the list of errors, which is then displayed on the MessageComponent
+        /// Success message is added on success
+        /// </summary>
+        /// <param name="aStockModelList">The list of StockModel to remove</param>
+        /// <returns>True if successfully removed, false otherwise</returns>
         public async Task<bool> RemoveStock(List<StockModel> aStockModelList)
         {
             IsBusy = true;
@@ -431,14 +540,22 @@ namespace KitchenStock.Components.ViewModels
 
 
         #region Messages
-        public void AddError(string aError)
+        /// <summary>
+        /// Adds an error message string to the list of errors
+        /// </summary>
+        /// <param name="aErrorMessage">The error message to add</param>
+        public void AddError(string aErrorMessage)
         {
-            mErrors.Add(aError);
+            mErrors.Add(aErrorMessage);
         }
 
-        public void AddSuccess(string aSuccess)
+        /// <summary>
+        /// Adds a success message string to the list of success messages
+        /// </summary>
+        /// <param name="aSuccessMessage">The success message to add</param>
+        public void AddSuccess(string aSuccessMessage)
         {
-            mSuccessMessages.Add(aSuccess);
+            mSuccessMessages.Add(aSuccessMessage);
         }
         #endregion
     }

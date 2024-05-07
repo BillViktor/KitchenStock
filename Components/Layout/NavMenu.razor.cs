@@ -1,5 +1,4 @@
 ﻿using KitchenStock.Components.ViewModels;
-using KitchenStock.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace KitchenStock.Components.Layout

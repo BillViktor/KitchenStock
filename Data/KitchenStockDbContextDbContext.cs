@@ -7,11 +7,13 @@ namespace KitchenStock.Data
     {
         public KitchenStockDbContext(DbContextOptions<KitchenStockDbContext> options) : base(options) { }
 
+        //Define the Database Sets
         public DbSet<ArticleModel> Articles { get; set; }
         public DbSet<CategoryModel> Categories { get; set; }
         public DbSet<LocationModel> Locations { get; set; }
         public DbSet<StockModel> Stock { get; set; }
 
+        //Specify that the tables have triggers
         protected override void OnModelCreating(ModelBuilder aModelBuilder)
         {
             aModelBuilder.Entity<LocationModel>(e =>
