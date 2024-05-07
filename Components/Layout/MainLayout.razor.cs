@@ -23,6 +23,7 @@ namespace KitchenStock.Components.Layout
                     if (!sResult)
                     {
                         mDarkMode = false;
+                        StateHasChanged();
                     }
                 }
             }
@@ -33,6 +34,10 @@ namespace KitchenStock.Components.Layout
         /// </summary>
         private async Task DarkModeToggle()
         {
+            //Update the darkmode bool
+            mDarkMode = !mDarkMode;
+
+            //Save the state in the local storage
             await LocalStorageService.SetItemAsync<bool>("darkMode", mDarkMode);
         }
 

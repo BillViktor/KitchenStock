@@ -62,12 +62,12 @@ namespace KitchenStock.Data
 
         #region Categories
         /// <summary>
-        /// Gets all CategoryModels
+        /// Gets all CategoryModels, sorted by name
         /// </summary>
         /// <returns>A List of all CategoryModels</returns>
         public async Task<List<CategoryModel>> GetCategories()
         {
-            return await mKitchenStockDbContext.Categories.ToListAsync();
+            return await mKitchenStockDbContext.Categories.OrderBy(c => c.Name).ToListAsync();
         }
 
         /// <summary>
