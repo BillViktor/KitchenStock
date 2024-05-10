@@ -28,12 +28,12 @@
             <RowTemplate>
                 <MudTd DataLabel="Id">@context.Id</MudTd>
                     <MudTd DataLabel="Article">@context.Article?.Name</MudTd>
-                    <MudTd DataLabel="Previous PercentageLeft">@context.PreviousPercentageLeft</MudTd>
-                    <MudTd DataLabel="New PercentageLeft">@context.NewPercentageLeft</MudTd>
+                    <MudTd DataLabel="Previous PercentageLeft">@context.PreviousPercentageLeft?.ToString("0.00")</MudTd>
+                    <MudTd DataLabel="New PercentageLeft">@context.NewPercentageLeft?.ToString("0.00")</MudTd>
                     <MudTd DataLabel="Previous Location">@context.PreviousLocation?.Name</MudTd>
                     <MudTd DataLabel="New Location">@context.NewLocation?.Name</MudTd>
-                    <MudTd DataLabel="Previous BestBeforeDate">@context.PreviousBestBeforeDate</MudTd>
-                    <MudTd DataLabel="New BestBeforeDate">@context.NewBestBeforeDate</MudTd>
+                    <MudTd DataLabel="Previous BestBeforeDate">@context.PreviousBestBeforeDate?.ToString("yyyy-MM-dd")</MudTd>
+                    <MudTd DataLabel="New BestBeforeDate">@context.NewBestBeforeDate?.ToString("yyyy-MM-dd")</MudTd>
                     <MudTd DataLabel="Description">@context.Description</MudTd>
                     <MudTd DataLabel="CreateDate">@context.CreateDate</MudTd>
                 </RowTemplate>
