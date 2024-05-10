@@ -28,11 +28,11 @@
                         }
                         @if(sStockTransaction.IsEnoughStock)
                         {
-                            <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.Check" />
+                            <MudIcon Color="Color.Success" Size="Size.Small" Icon="@Icons.Material.Filled.Check" />
                         }
                         else
                         {
-                            <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.Error" />
+                            <MudIcon Color="Color.Error" Size="Size.Small" Icon="@Icons.Material.Filled.Error" />
                         }
                     </MudStack>
                     @if(sStockTransaction.StockAndNewPercentageLeft.Count > 0)
@@ -60,6 +60,10 @@
                                 }
                             </tbody>
                         </MudSimpleTable>
+                        @if (!sStockTransaction.IsEnoughStock)
+                        {
+                            <MudText Style="color: red"><b>Not enough stock!</b></MudText>
+                        }
                     }
                     else
                     {
