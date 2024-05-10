@@ -34,7 +34,7 @@ namespace KitchenStock.Migrations
 
                     b.HasIndex("CategoriesId");
 
-                    b.ToTable("ArticleModelCategoryModel");
+                    b.ToTable("ArticleModelCategoryModel", (string)null);
                 });
 
             modelBuilder.Entity("KitchenStock.Models.ArticleModel", b =>
@@ -233,7 +233,7 @@ namespace KitchenStock.Migrations
 
                     b.HasIndex("RecipeModelId");
 
-                    b.ToTable("RecipeIngredientModel");
+                    b.ToTable("RecipeIngredientModel", (string)null);
                 });
 
             modelBuilder.Entity("KitchenStock.Models.RecipeModel", b =>
