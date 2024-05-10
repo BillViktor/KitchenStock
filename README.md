@@ -6,7 +6,7 @@ When an article is specified, and you have at least one location added, you can 
 
 The stock will then be shown in a table sorted by best before date, and the best before date will be red if the stock is old, orange if it's almost old (within three days). You can also edit stock, where you can change its location, the percentage left of the stock (0-100%), and the best before date. All Stock transactions are logged.
 
-When adding a recipe, you must first add ingredients. You can then associate an article with an ingredient. You can also specify the nutritional values of an ingredient to get nutritional values per portion on your recipes. As well as use Suggestions, to get suggestions for recipes you can make with the stock of articles you have.
+When adding a recipe, you must first add ingredients. You can then associate an article with an ingredient. You can also specify the nutritional values of an ingredient to get nutritional values per portion on your recipes. As well as use Suggestions, to get suggestions for recipes you can make with the stock of articles you have. When viewing a recipe, there's functionality to automatically remove/update stock required for the recipe. The stock used will always be sorted by opened stock, and then best before date of the stock.
 
 
 # DataBase
@@ -27,7 +27,7 @@ Triggers were added for each table (except the 9th and 10th table) for setting U
 # Images
 ### Functionality
 The Index/Home page
-![image](https://github.com/BillViktor/KitchenStock/assets/126798316/8e66ad41-fbf3-495b-b663-da56c3eccedb)
+![image](https://github.com/BillViktor/KitchenStock/assets/126798316/0f89a450-1b16-46f8-9517-cc10cb331a07)
 Shows a table of all existing stock, sorted by best before date. The table rows contain the Id of the stock, the article name, all article categories, the location name, best before date (red if old, orange if old within three days), percentage left of the stock, as well as create date and update date of the stock. And two buttons, one for editing the existing stock, and one for removing the stock.
 
 Adding New Stock
