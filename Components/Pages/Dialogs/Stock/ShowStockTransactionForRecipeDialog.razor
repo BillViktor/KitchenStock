@@ -1,0 +1,79 @@
+﻿@using Models
+
+<MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
+
+<MudDialog>
+   <DialogContent>
+      <MudItem>
+            @foreach(var sStockTransaction in mStockTransactionList)
+            {
+                <MudItem Style="@(sStockTransaction == mStockTransactionList.First() ? "" : "margin-top: 10px;")">
+                    <MudText Typo="Typo.h6">Ingredient: @sStockTransaction.RecipeIngredient.Ingredient.Name</MudText>
+                   <MudStack Class="d-flex align-center" Row="true">
+                        @if(sStockTransaction.RecipeIngredient.MeasurementType == MeasurementTypeEnum.Weight)
+                        {
+                            <MudText>Weight Needed: @sStockTransaction.RecipeIngredient.GetWeightString(sStockTransaction.Multiplier)</MudText>
+                        }
+                        else if (sStockTransaction.RecipeIngredient.MeasurementType == MeasurementTypeEnum.Volume)
+                        {
+                            <MudText>Volume Needed: @sStockTransaction.RecipeIngredient.GetVolumeString(sStockTransaction.Multiplier)</MudText>
+                        }
+                        else if (sStockTransaction.RecipeIngredient.MeasurementType == MeasurementTypeEnum.Quantity)
+                        {
+                            <MudText>Quantity Needed: @sStockTransaction.RecipeIngredient.GetQuantityString(sStockTransaction.Multiplier)</MudText>
+                        }
+                        else
+                        {
+                            <MudText>Can not provide a Stock Transaction for Measurement Type "Other"</MudText>
+                        }
+                        @if(sStockTransaction.IsEnoughStock)
+                        {
+                            <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.Check" />
+                        }
+                        else
+                        {
+                            <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.Error" />
+                        }
+                    </MudStack>
+                    @if(sStockTransaction.StockAndNewPercentageLeft.Count > 0)
+                    {
+                        <MudSimpleTable Dense="true" Bordered="true">
+                            <thead>
+                                <tr>
+                                    <th>Article Name</th>
+                                    <th>% Left</th>
+                                    <th>New % Left</th>
+                                    <th>Location</th>
+                                    <th>BBD</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var sStock in sStockTransaction.StockAndNewPercentageLeft)
+                                {
+                                    <tr>
+                                        <td>@sStock.Key.Article.Name</td>
+                                        <td>@sStock.Key.PercentageLeft.ToString("0.00")</td>
+                                        <td>@sStock.Value.ToString("0.00")</td>
+                                        <td>@sStock.Key.Location.Name</td>
+                                        <td>@sStock.Key.BestBeforeDate?.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </MudSimpleTable>
+                    }
+                    else
+                    {
+                        <MudText Style="color: red"><b>No stock! No stock transactions will be made for this ingredient!</b></MudText>
+                    }
+               </MudItem>
+
+               <MudDivider/>
+            }
+
+         <MudStack Style="margin-top: 20px" Row="true">
+                <MudButton Disabled="@(!mStockTransactionList.Any(x => x.StockAndNewPercentageLeft.Count > 0))" @onclick="async () => await Confirm()" Variant="Variant.Filled" Color="Color.Success" FullWidth="true">Confirm</MudButton>
+                <MudButton @onclick="Cancel" Variant="Variant.Filled" Color="Color.Warning" FullWidth="true">Close</MudButton>
+         </MudStack>
+      </MudItem>
+   </DialogContent>
+</MudDialog>

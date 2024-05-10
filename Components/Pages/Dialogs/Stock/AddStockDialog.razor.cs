@@ -12,6 +12,8 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         [Inject] ViewModel ViewModel { get; set; }
         [Inject] ISnackbar Snackbar { get; set; }
         [Parameter] public LocationModel mLocationModel { get; set; }
+        [Parameter] public ArticleModel mArticleModel { get; set; }
+        [Parameter] public int? mQuantityParam { get; set; }
 
         //Private fields
         private int mQuantity = 1;
@@ -24,7 +26,7 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         
 
         /// <summary>
-        /// On onitialization, get all Locations and check of we have a LocationModel as a paremter, if so, set the StockModels Location to the parameters LocationModel
+        /// On onitialization, get all Locations and check of we have any values set from parameters, if so, set them
         /// </summary>
         /// <returns></returns>
         protected override async Task OnInitializedAsync()
@@ -34,6 +36,14 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
             if(mLocationModel != null)
             {
                 mStockModel.Location = mLocationModel;
+            }
+            if(mQuantityParam != null)
+            {
+                mQuantity = (int)mQuantityParam;
+            }
+            if(mArticleModel != null)
+            {
+                mStockModel.Article = mArticleModel;
             }
         }
 

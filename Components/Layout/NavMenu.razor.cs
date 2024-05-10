@@ -7,8 +7,9 @@ namespace KitchenStock.Components.Layout
     {
         [Inject] ViewModel MasterViewModel { get; set; }
 
-        private int mMaxTries = 10;
-        private int mDelayInMs = 100;
+        /// Constants for setting the Location menus
+        private const int mMaxTries = 10;
+        private const int mDelayInMs = 100;
 
         /// <summary>
         /// Wait for the Locations to load, then update UI to show the locations in the navmenu

@@ -1,0 +1,52 @@
+﻿@page "/recipes"
+
+<PageTitle>Recipes</PageTitle>
+
+<MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
+
+<MudPaper Class="pa-4">
+    <MudButton FullWidth="true" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Success" @onclick="() => AddOrEditRecipe(new RecipeModel(), true)">Add New Recipe</MudButton>
+
+
+    <MudItem Style="margin-top: 10px">
+        <MudTable Dense="true" Striped="true" Filter="new Func<RecipeModel, bool>(FilterFunction1)" Items="@ViewModel.Recipes" Hover="true" Breakpoint="Breakpoint.Sm">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Categories</MudText>
+                <MudSpacer />
+                <MudTextField Immediate="true" @bind-Value="mSearchString" Placeholder="Search by Name or Desription" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh><MudTableSortLabel SortBy="new Func<RecipeModel, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<RecipeModel, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<RecipeModel, object>(x=>x.PortionCount)">Portions</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<RecipeModel, object>(x=>x.Rating)">Rating</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<RecipeModel, object>(x => (x.Ingredients == null ? 0 : x.Ingredients.Count))">Ingredients</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<RecipeModel, object>(x=>x.GetIngredientsString())">Ingredients Description</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<RecipeModel, object>(x=>x.CreateDate)">CreateDate</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<RecipeModel, object>(x=>x.UpdateDate)">UpdateDate</MudTableSortLabel></MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd Style="cursor:pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="Id">@context.Id</MudTd>
+                    <MudTd Style="cursor:pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="Name">@context.Name</MudTd>
+                    <MudTd Style="cursor:pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="Portions">@context.PortionCount</MudTd>
+                    <MudTd Style="cursor:pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="Rating">
+                        @if(context.Rating != null)
+                          {
+                        <MudRating SelectedValue="(int)context.Rating" ReadOnly="true" Size="Size.Small" />
+                          }
+                    </MudTd>
+                    <MudTd Style="cursor:pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="Ingredients">@(context.Ingredients == null ? "0" : context.Ingredients.Count)</MudTd>
+                    <MudTd Style="cursor:pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="Ingredients Description">@context.GetIngredientsString()</MudTd>
+                    <MudTd Style="cursor:pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="CreateDate">@context.CreateDate</MudTd>
+                    <MudTd Style="cursor:pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="UpdateDate">@context.UpdateDate</MudTd>
+                    <MudTd DataLabel="">
+                        <MudButton StartIcon="@Icons.Material.Filled.Edit" FullWidth="true" Variant="Variant.Filled" Color="Color.Warning" @onclick="async () => await AddOrEditRecipe(context, false)">Edit</MudButton>
+                    </MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                </PagerContent>
+            </MudTable>
+        </MudItem>
+    </MudPaper>

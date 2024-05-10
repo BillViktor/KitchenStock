@@ -1,0 +1,86 @@
+﻿@page "/suggestions"
+
+<PageTitle>Suggestions</PageTitle>
+
+<MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
+
+<MudPaper Class="pa-4">
+   <MudItem Class="d-flex row justify-space-between">
+        <h1>Suggested Recipes Based on Stock</h1>
+
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Lightbulb" Color="Color.Success" OnClick="async () => await GetSuggestedRecipes()">Get Suggested Recipes</MudButton>
+   </MudItem>
+    
+    <MudTable Striped="true" Filter="new Func<SuggestedRecipeModel, bool>(FilterFunction1)" Items="@ViewModel.SuggestedRecipes" Hover="true" Breakpoint="Breakpoint.Sm">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Suggested Recipes</MudText>
+            <MudSpacer />
+            <MudTextField Immediate="true" @bind-Value="mSearchString" Placeholder="Search by Name or Ingredient" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<SuggestedRecipeModel, object>(x=>x.Recipe.Name)">Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<SuggestedRecipeModel, object>(x=>x.Recipe.PortionCount)">Portions</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<SuggestedRecipeModel, object>(x=>x.Recipe.Rating)">Rating</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<SuggestedRecipeModel, object>(x=> (x.Recipe.Ingredients.Count - x.GetIngredientsWithFullStock().Count()))">Ingredients Count</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<SuggestedRecipeModel, object>(x => x.Recipe.GetIngredientsString())">Ingredients</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+                <MudTd Style="cursor: pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="Name">@context.Recipe.Name</MudTd>
+                <MudTd Style="cursor: pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="PortionCount">@context.Recipe.PortionCount</MudTd>
+                <MudTd Style="cursor:pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="Rating">
+                    @if (context.Recipe.Rating != null)
+                {
+                    <MudRating SelectedValue="(int)context.Recipe.Rating" ReadOnly="true" Size="Size.Small" />
+                }
+                </MudTd>
+                <MudTd Style="cursor: pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="Ingredients">@($"{context.GetIngredientsWithFullStock().Count}/{context.Recipe.Ingredients.Count}")</MudTd>
+                <MudTd Style="cursor: pointer" @onclick="async () => await ShowRecipe(context)" DataLabel="Ingredients">@context.Recipe.GetIngredientsString()</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+            </PagerContent>
+        </MudTable>
+</MudPaper>
+
+<MudPaper Style="margin-top: 20px" Class="pa-4">
+    <MudItem Class="d-flex row align-center">
+        <h1>Suggested Beverages to Drink</h1>
+        <MudIconButton Icon="@Icons.Material.Filled.Info" OnClick="() => mShowPopover = !mShowPopover"/>
+   </MudItem>
+    
+
+    <MudPopover Open="@mShowPopover" Fixed="true" Class="px-4 pt-4">
+        <div class="d-flex flex-column">
+                <MudText>For this table to work properly you must have a category called "beverages" or "dricka".</MudText>
+            <MudText></MudText>
+            <MudButton FullWidth="true" OnClick="() => mShowPopover = !mShowPopover" Class="pa-2" Variant="Variant.Filled" Color="Color.Warning">Close</MudButton>
+        </div>
+    </MudPopover>
+
+        <MudTable Dense="true" Striped="true" Items="@ViewModel.Stock.Where(x => x.Article.Categories.Any(x => x.Name.ToUpper() == "BEVERAGES" || x.Name.ToUpper() == "DRICKA"))" Hover="true" Breakpoint="Breakpoint.Sm">
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.Article.Name)">Article</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.Article.GetCategoryString())">Categories</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.Location.Name)">Location</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<StockModel, object>(x=>x.BestBeforeDate)">Best Before Date</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.PercentageLeft)">PercentageLeft</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.CreateDate)">CreateDate</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockModel, object>(x=>x.UpdateDate)">UpdateDate</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Id">@context.Id</MudTd>
+                <MudTd DataLabel="Name">@context.Article.Name</MudTd>
+                <MudTd DataLabel="Name">@context.Article.GetCategoryString()</MudTd>
+                <MudTd DataLabel="Name">@context.Location.Name</MudTd>
+                <MudTd Style="@BestBeforeDateStyling.GetBestBeforeDateStylingForStock(context.BestBeforeDate)" DataLabel="Name">@context.BestBeforeDate.Value.ToString("yyyy-MM-dd")</MudTd>
+                <MudTd DataLabel="Name">@context.PercentageLeft</MudTd>
+                <MudTd DataLabel="CreateDate">@context.CreateDate</MudTd>
+                <MudTd DataLabel="UpdateDate">@context.UpdateDate</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+            </PagerContent>
+        </MudTable>
+</MudPaper>
+

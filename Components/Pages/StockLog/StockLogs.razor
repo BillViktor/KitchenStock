@@ -1,0 +1,45 @@
+﻿@page "/stocklog"
+
+<PageTitle>Stock Logs</PageTitle>
+
+<MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
+
+<MudPaper Class="pa-4">
+    <MudItem Style="margin-top: 10px">
+        <MudTable Dense="true" Striped="true" Filter="new Func<StockLogModel, bool>(FilterFunction1)"  Items="@ViewModel.StockLogs" Hover="true" Breakpoint="Breakpoint.Sm">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Stock Logs</MudText>
+                <MudSpacer />
+                <MudTextField Immediate="true" @bind-Value="mSearchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh><MudTableSortLabel SortBy="new Func<StockLogModel, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<StockLogModel, object>(x=>x.Article?.Name)">Article</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<StockLogModel, object>(x=>x.PreviousPercentageLeft)">Previous PercentageLeft</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<StockLogModel, object>(x=>x.NewPercentageLeft)">New PercentageLeft</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<StockLogModel, object>(x=>x.PreviousLocation?.Name)">Previous Location</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<StockLogModel, object>(x=>x.NewLocation?.Name)">New Location</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<StockLogModel, object>(x=>x.PreviousBestBeforeDate)">Previous BestBeforeDate</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<StockLogModel, object>(x=>x.NewBestBeforeDate)">New BestBeforeDate</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<StockLogModel, object>(x=>x.Description)">Description</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Descending" SortBy="new Func<StockLogModel, object>(x=>x.CreateDate)">CreateDate</MudTableSortLabel></MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Id">@context.Id</MudTd>
+                    <MudTd DataLabel="Article">@context.Article?.Name</MudTd>
+                    <MudTd DataLabel="Previous PercentageLeft">@context.PreviousPercentageLeft</MudTd>
+                    <MudTd DataLabel="New PercentageLeft">@context.NewPercentageLeft</MudTd>
+                    <MudTd DataLabel="Previous Location">@context.PreviousLocation?.Name</MudTd>
+                    <MudTd DataLabel="New Location">@context.NewLocation?.Name</MudTd>
+                    <MudTd DataLabel="Previous BestBeforeDate">@context.PreviousBestBeforeDate</MudTd>
+                    <MudTd DataLabel="New BestBeforeDate">@context.NewBestBeforeDate</MudTd>
+                    <MudTd DataLabel="Description">@context.Description</MudTd>
+                    <MudTd DataLabel="CreateDate">@context.CreateDate</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                </PagerContent>
+            </MudTable>
+        </MudItem>
+</MudPaper>

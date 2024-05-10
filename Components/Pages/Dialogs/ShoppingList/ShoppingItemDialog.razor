@@ -1,0 +1,31 @@
+﻿<MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy"/>
+
+<MudDialog>
+   <DialogContent>
+      <MudItem Style="width: 500px">
+         <MudItem>
+                <MudText>Article</MudText>
+                <MudAutocomplete Disabled="@(!mNewShoppingModel)" @bind-Value="mShoppingModel.Article" Variant="Variant.Filled" T="ArticleModel" Label="Article" SearchFunc="@Search" ResetValueOnEmptyText="true" CoerceText="true" ToStringFunc="@(a => a == null ? null : a.Name)" />
+         </MudItem>
+
+         <MudItem Style="margin-top: 10px">
+                <MudText>Quantity</MudText>
+                <MudNumericField style="width: 100%" Min="1" Max="100" Step="1" HelperText="Description" Variant="Variant.Filled" @bind-Value="mShoppingModel.Quantity" />
+         </MudItem>
+
+         <MudStack Style="margin-top: 20px" Row="true">
+                @if (mNewShoppingModel)
+               {
+                  <MudButton @onclick="async () => await Add()" Variant="Variant.Filled" Color="Color.Success" FullWidth="true">Add</MudButton>
+               }
+               else
+               {
+                  <MudButton @onclick="async () => await Update()" Variant="Variant.Filled" Color="Color.Success" FullWidth="true">Update</MudButton>
+                  <MudButton @onclick="async () => await Delete()" Variant="Variant.Filled" Color="Color.Error" FullWidth="true">Delete</MudButton>
+               }
+               <MudButton @onclick="Cancel" Variant="Variant.Filled" Color="Color.Warning" FullWidth="true">Cancel</MudButton>
+         </MudStack>
+      </MudItem>
+   </DialogContent>
+</MudDialog>
+

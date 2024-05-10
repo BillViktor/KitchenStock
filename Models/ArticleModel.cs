@@ -2,16 +2,26 @@
 {
     public class ArticleModel
     {
+        #nullable enable
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
         public string? Description { get; set; }
         public string? EAN { get; set; }
 
-        public DateTime? CreateDate { get; set; }
+        public double? WeightInGrams { get; set; }
+        public double? VolumeInLiters { get; set; }
+        public double? QuantityInPackage { get; set; }
+
+        public int? IngredientId { get; set; }
+        public IngredientModel? Ingredient { get; set; }
+
+        public DateTime? CreateDate { get; set; } = DateTime.Now;
         public DateTime? UpdateDate { get; set; }
 
-        public List<StockModel> Stock { get; set; } 
-        public List<CategoryModel> Categories { get; set; }
+        public List<StockModel> Stock { get; set; } = null!;
+        public List<CategoryModel> Categories { get; set; } = null!;
+
+        #nullable disable
 
         /// <summary>
         /// Gets the categories in a comma seperated string

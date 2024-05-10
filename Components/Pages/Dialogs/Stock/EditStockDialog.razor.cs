@@ -11,12 +11,17 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         [Inject] ViewModel ViewModel { get; set; }
         [Parameter] public StockModel mStockModel { get; set; }
 
+        private StockModel mOriginalStockModel;
+
         /// <summary>
         /// Get all Locations on initialization
         /// </summary>
         /// <returns></returns>
         protected override async Task OnInitializedAsync()
         {
+            //Copy the stock
+            mOriginalStockModel = new StockModel(mStockModel);
+
             await ViewModel.GetLocations();
         }
 
@@ -33,7 +38,7 @@ namespace KitchenStock.Components.Pages.Dialogs.Stock
         /// </summary>
         private async Task Save()
         {
-            if(await ViewModel.UpdateStock(mStockModel))
+            if(await ViewModel.UpdateStock(mStockModel, mOriginalStockModel))
             {
                 MudDialog.Close();
             }

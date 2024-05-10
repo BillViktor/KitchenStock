@@ -8,14 +8,14 @@
          <MudItem>
             <MudText>Article - Search by EAN or Select in List</MudText>
             <MudStack Row="true">
-               <MudInput Immediate="true" @onkeydown="FindArticle" @bind-Value="mEAN" Variant="Variant.Filled" />
-               <MudAutocomplete @bind-Value="mStockModel.Article" Variant="Variant.Filled" T="ArticleModel" Label="Article" SearchFunc="@Search" ResetValueOnEmptyText="true" CoerceText="true" ToStringFunc="@(a => a == null ? null : a.Name)" />
+               <MudInput Disabled="@(mArticleModel != null)" Immediate="true" @onkeydown="FindArticle" @bind-Value="mEAN" Variant="Variant.Filled" />
+               <MudAutocomplete Disabled="@(mArticleModel != null)" @bind-Value="mStockModel.Article" Variant="Variant.Filled" T="ArticleModel" Label="Article" SearchFunc="@Search" ResetValueOnEmptyText="true" CoerceText="true" ToStringFunc="@(a => a == null ? null : a.Name)" />
             </MudStack>
          </MudItem>
 
          <MudItem Style="margin-top: 10px">
                <MudText>Quantity</MudText>
-               <MudInput Style="width: 100%" @bind-Value="mQuantity" Variant="Variant.Filled"/>
+                <MudInput Disabled="@(mQuantityParam != null)" Style="width: 100%" @bind-Value="mQuantity" Variant="Variant.Filled" />
          </MudItem>
 
          <MudItem Style="margin-top: 10px">

@@ -1,0 +1,103 @@
+﻿<MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
+
+<MudDialog>
+   <DialogContent>
+      <MudItem>
+            <MudItem Style="margin-top: -30px">
+                @if (!string.IsNullOrEmpty(mRecipeModel.Description))
+                {
+                    <MudTextField AutoGrow="true" FullWidth="true" Disabled="true" @bind-Value="mRecipeModel.Description" />
+
+                    <MudDivider />
+                }
+            </MudItem>
+
+            <MudItem Style="margin-top: 10px">
+                <MudText><b>Nutritional Values Per Portion</b></MudText>
+                <MudStack Row="true">
+                    <MudSimpleTable Style="@(mInaccurateResults ? "width: 90%" : "width: 100%")" Dense="true" Bordered="true">
+                        <thead>
+                            <tr>
+                                <th>Kcal</th>
+                                <th>Carbs</th>
+                                <th>Proteins</th>
+                                <th>Fat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@mKcalPerPortion.ToString("0.00")</td>
+                                <td>@mCarbsPerPotion.ToString("0.00")</td>
+                                <td>@mProteinPerPortion.ToString("0.00")</td>
+                                <td>@mFatsPerPortion.ToString("0.00")</td>
+                            </tr>
+                        </tbody>
+                    </MudSimpleTable>
+                    @if(mInaccurateResults)
+                    {
+                       <MudIconButton Icon="@Icons.Material.Filled.Error" @onclick="() => mShowInaccurateResultsPopOver = !mShowInaccurateResultsPopOver"/>
+                    }
+                </MudStack>
+            </MudItem>
+
+            <MudPopover Class="pa-2" AnchorOrigin="Origin.TopLeft" Open="mShowInaccurateResultsPopOver">
+               <MudText Style="color: red"><b>These nutritional facts are inaccurate! </b></MudText>
+                <MudText Style="color: red"><b>One of the ingredients in the recipe doesn't have a valid conversion between volume/qty to weight!</b></MudText>
+                <MudText Style="color: red"><b>Please check that all the ingredients have a set conversion.</b></MudText>
+
+
+                <MudButton Color="Color.Warning" FullWidth="true" Variant="Variant.Filled" OnClick="() => mShowInaccurateResultsPopOver = !mShowInaccurateResultsPopOver">Closa</MudButton>
+            </MudPopover>
+
+            <MudItem Style="margin-top: 10px">
+                <MudText><b>Portions</b></MudText>
+                <MudNumericField Min="1" Max="32" Step="1" @bind-Value="mPortionSize" FullWidth="true" Variant="Variant.Filled"/>
+                @if(mPortionSize != mRecipeModel.PortionCount)
+                {
+                    <MudText Typo="Typo.caption"><b>Please note that alerting the portion count may result in inaccurate cooking times!</b></MudText>
+                }
+            </MudItem>
+
+            <MudItem Style="margin-top: 10px">
+               <MudText><b>Ingredients</b></MudText>
+               @foreach (var sIngredient in mRecipeModel.Ingredients)
+               {
+                    <MudStack Row="true" Class="d-flex justify-space-between align-center">
+                        <MudCheckBox Style="@GetIngredientStyling(sIngredient)" T="bool" Label="@($"{sIngredient.Ingredient.Name} - {sIngredient.GetMeasurement(mMultiplier)}")"></MudCheckBox>
+                        @if (mSuggestedRecipeModel != null && mSuggestedRecipeModel.IsStockEnough(sIngredient, mMultiplier) < 2)
+                        {
+                           <MudItem>
+                                <MudButton Disabled="ViewModel.ShoppingList.Any(x => x.Article.Ingredient == sIngredient.Ingredient)" OnClick="async () => await AddItemToShoppingList(sIngredient)" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Variant="Variant.Filled" Size="Size.Small">Add to List</MudButton>
+                            </MudItem>
+                        }
+                        else if(sIngredient.Ingredient.Checkstock)
+                        {
+                            <MudButton OnClick="async () => await ShowStockForIngredient(sIngredient.Ingredient)" StartIcon="@Icons.Material.Filled.Search" Color="Color.Success" Variant="Variant.Filled" Size="Size.Small">Show Stock</MudButton>
+                        }
+                    </MudStack>
+               }
+            </MudItem>
+
+            <MudDivider/>
+
+            <MudItem Style="margin-top: 10px">
+                <MudText><b>Cooking Instructions</b></MudText>
+                @for(int i = 0; i < mRecipeModel.GetCookingInstructionList().Count; i++)
+                {
+                    int sCount = i;
+                    <MudCheckBox Style="@(sCount == 0 ? "" : "margin-top: 10px")" T="bool" Label="@(mRecipeModel.GetCookingInstructionList()[sCount])"></MudCheckBox>
+                }
+            </MudItem>
+
+            <MudDivider />
+
+         <MudItem Style="margin-top: 20px">
+            <MudStack Row="true">
+                    <MudButton @onclick="async () => await RemoveStockForRecipe()" Variant="Variant.Filled" Color="Color.Error" FullWidth="true">Remove Stock For Recipe</MudButton>
+                    <MudButton @onclick="Cancel" Variant="Variant.Filled" Color="Color.Warning" FullWidth="true">Close</MudButton>
+            </MudStack>
+         </MudItem>
+      </MudItem>
+   </DialogContent>
+</MudDialog>
+

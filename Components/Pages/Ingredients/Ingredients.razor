@@ -1,0 +1,65 @@
+﻿@page "/ingredients"
+
+<PageTitle>Ingredients</PageTitle>
+
+<MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
+
+<MudPaper Class="pa-4">
+    <MudButton FullWidth="true" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Success" @onclick="() => AddOrEditIngredient(new IngredientModel(), true)">Add New Ingredient</MudButton>
+
+
+    <MudItem Style="margin-top: 10px">
+        <MudTable Dense="true" Striped="true" Filter="new Func<IngredientModel, bool>(FilterFunction1)" Items="@ViewModel.Ingredients" Hover="true" Breakpoint="Breakpoint.Sm">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Categories</MudText>
+                <MudSpacer />
+                <MudTextField Immediate="true" @bind-Value="mSearchString" Placeholder="Search by Name or Desription" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh><MudTableSortLabel SortBy="new Func<IngredientModel, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<IngredientModel, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<IngredientModel, object>(x=>x.Checkstock)">CheckStock</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<IngredientModel, object>(x=>x.Description)">Description</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<IngredientModel, object>(x=>x.KcalPerHundredGrams)">Nutrition 100/g (kcal, carbs, protein, fat)</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<IngredientModel, object>(y=> ViewModel.Recipes.Any(x => x.Ingredients.Any(x => x.Ingredient == y && (x.MeasurementType == MeasurementTypeEnum.Quantity && y.WeightOfOneQuantity == null) || (x.MeasurementType == MeasurementTypeEnum.Volume && y.WeightOfOneHundredMilliliters == null))))">Missing Conversion</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<IngredientModel, object>(x=>x.CreateDate)">CreateDate</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<IngredientModel, object>(x=>x.UpdateDate)">UpdateDate</MudTableSortLabel></MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+               <MudTd DataLabel="Id">@context.Id</MudTd>
+               <MudTd DataLabel="Name">@context.Name</MudTd>
+               <MudTd DataLabel="Checkstock">
+                     @if(context.Checkstock)
+                    {
+                        <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.Check"/>
+                    }
+                    else
+                    {
+                        <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.CheckBoxOutlineBlank" />
+                    }
+                </MudTd>
+               <MudTd DataLabel="Description">@context.Description</MudTd>
+               <MudTd DataLabel="Nutrition 100/g (kcal, carbs, protein, fat)">@context.KcalPerHundredGrams kcal, @context.CarbsPerHundredGrams g, @context.ProteinPerHundredGrams g, @context.FatsPerHundredGrams g</MudTd>
+                <MudTd DataLabel="Missing Conversion">
+                   @if(ViewModel.Recipes.Any(x => x.Ingredients.Any(x => x.Ingredient == context && ((x.MeasurementType == MeasurementTypeEnum.Quantity && context.WeightOfOneQuantity == null) || (x.MeasurementType == MeasurementTypeEnum.Volume && context.WeightOfOneHundredMilliliters == null))))) 
+                   {
+                        <MudIcon Icon="@Icons.Material.Filled.Error" Size="Size.Small" />
+                   }
+                    else
+                    {
+                        <MudIcon Icon="@Icons.Material.Filled.Check" Size="Size.Small"/>
+                    }
+                </MudTd>
+               <MudTd DataLabel="CreateDate">@context.CreateDate</MudTd>
+               <MudTd DataLabel="UpdateDate">@context.UpdateDate</MudTd>
+               <MudTd DataLabel="">
+                  <MudButton StartIcon="@Icons.Material.Filled.Edit" FullWidth="true" Variant="Variant.Filled" Color="Color.Warning" @onclick="async () => await AddOrEditIngredient(context, false)">Edit</MudButton>
+               </MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                </PagerContent>
+            </MudTable>
+        </MudItem>
+    </MudPaper>

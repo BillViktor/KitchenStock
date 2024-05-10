@@ -6,9 +6,14 @@
             <MudNavLink Match="NavLinkMatch.Prefix" Href="@sLocation.GetLocationUrl()">@sLocation.Name</MudNavLink>
         }
     </MudNavGroup>
+    <MudNavLink Icon="@Icons.Material.Filled.ShoppingCart" Match="NavLinkMatch.Prefix" Href="shoppinglist">Shopping list</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.Receipt" Match="NavLinkMatch.Prefix" Href="recipes">Recipes</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.Lightbulb" Match="NavLinkMatch.Prefix" Href="suggestions">Suggestions</MudNavLink>
     <MudNavGroup Icon="@Icons.Material.Filled.Settings" Title="Settings" Expanded="false">
         <MudNavLink Href="articles" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FoodBank">Articles</MudNavLink>
         <MudNavLink Href="categories" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Category">Categories</MudNavLink>
+        <MudNavLink Href="ingredients" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Egg">Ingredients</MudNavLink>
         <MudNavLink Href="locations" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Map">Locations</MudNavLink>
+        <MudNavLink Href="stocklog" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Book">Stock Log</MudNavLink>
     </MudNavGroup>
 </MudNavMenu>

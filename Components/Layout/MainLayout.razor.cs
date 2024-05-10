@@ -11,7 +11,7 @@ namespace KitchenStock.Components.Layout
         //Fields
         private bool mDraweropen = true;
         private bool mDarkMode = true;
-        private MudTheme mCustomTheme = new MudTheme //Custom MudTheme
+        private readonly MudTheme mCustomTheme = new MudTheme //Custom MudTheme
         {
             Palette =
             {

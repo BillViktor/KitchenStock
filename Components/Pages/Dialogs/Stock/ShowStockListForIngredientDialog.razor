@@ -1,0 +1,44 @@
+﻿@using Models
+
+<MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
+
+<MudDialog>
+   <DialogContent>
+      <MudItem>
+         <MudItem>
+            @if(mStockForIngredient.Count > 0)
+            {
+               <MudSimpleTable Dense="true" Bordered="true">
+                  <thead>
+                        <tr>
+                           <th>Article Name</th>
+                           <th>Percentage Left</th>
+                           <th>Location</th>
+                           <th>Best Before Date</th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        @foreach (var sStock in mStockForIngredient)
+                        {
+                           <tr>
+                              <td>@sStock.Article.Name</td>
+                              <td>@sStock.PercentageLeft</td>
+                              <td>@sStock.Location.Name</td>
+                              <td>@sStock.BestBeforeDate</td>
+                           </tr>
+                        }
+                  </tbody>
+                    </MudSimpleTable>
+                }
+                else
+                {
+                    <MudText Style="color: red;"><b>No stock found!</b></MudText>
+                }
+            </MudItem>
+
+         <MudStack Style="margin-top: 20px" Row="true">
+                <MudButton @onclick="Cancel" Variant="Variant.Filled" Color="Color.Warning" FullWidth="true">Close</MudButton>
+         </MudStack>
+      </MudItem>
+          </DialogContent>
+</MudDialog>

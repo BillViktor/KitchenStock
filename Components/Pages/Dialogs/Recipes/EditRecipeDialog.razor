@@ -1,0 +1,77 @@
+﻿<MessageComponent Errors="ViewModel.Errors" SuccessMessages="ViewModel.SuccessMessages" IsBusy="ViewModel.IsBusy" />
+
+<MudDialog>
+   <DialogContent>
+      <MudItem Style="width: 525px">
+         <MudItem>
+                <MudText>Name</MudText>
+                <MudInput style="width: 100%" HelperText="Name" Variant="Variant.Filled" @bind-Value="mRecipeModel.Name" />
+         </MudItem>
+
+            <MudItem Style="margin-top: 10px">
+                <MudText>Description</MudText>
+                <MudInput style="width: 100%" Lines="2" HelperText="Description" Variant="Variant.Filled" @bind-Value="mRecipeModel.Description" />
+            </MudItem>
+
+            <MudItem Style="margin-top: 10px">
+                <MudText>Number of Portions</MudText>
+                <MudNumericField style="width: 100%" Min="1" Step="1" Max="32" HelperText="Number of Portions" Variant="Variant.Filled" @bind-Value="mRecipeModel.PortionCount" />
+            </MudItem>
+
+            <MudItem Style="margin-top: 10px">
+                <MudText>Rating (1-5)</MudText>
+                <MudNumericField style="width: 100%" Min="1" Max="10" HelperText="Number of Portions" Variant="Variant.Filled" @bind-Value="mRecipeModel.Rating" />
+            </MudItem>
+
+            <MudItem Style="margin-top: 10px">
+                <MudText>Cooking Instructions</MudText>
+                <MudInput style="width: 100%" Lines="10" HelperText="Cooking Instructions" Variant="Variant.Filled" @bind-Value="mRecipeModel.CookingInstructions" />
+            </MudItem>
+
+         <MudItem Style="margin-top: 10px">
+               <MudText>Ingredients</MudText>
+               <MudButton StartIcon="@Icons.Material.Filled.Add" FullWidth="true" Variant="Variant.Filled" Color="Color.Success" OnClick="async () => await AddOrEditIngredient(new RecipeIngredientModel(), true)">Add New Ingredient</MudButton>
+               @if(mRecipeModel.Ingredients.Count > 0)
+               {
+                  <MudItem Style="max-height: 250px; overflow-y: auto">
+                     <MudTable Dense="true" Striped="true" Items="@mRecipeModel.Ingredients" Hover="true" Breakpoint="Breakpoint.Sm">
+                           <HeaderContent>
+                              <MudTh>Name</MudTh>
+                              <MudTh>Measurement</MudTh>
+                              <MudTh></MudTh>
+                           </HeaderContent>
+                           <RowTemplate>
+                              <MudTd DataLabel="Name">@context.Ingredient.Name</MudTd>
+                              <MudTd DataLabel="Measurement">@context.GetMeasurement(1)</MudTd>
+                              <MudTd DataLabel="">
+                                    <MudButton Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" OnClick="async () => await AddOrEditIngredient(context, false)" Color="Color.Warning">Edit</MudButton>
+                              </MudTd>
+                              </RowTemplate>
+                              <PagerContent>
+                                 <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                              </PagerContent>
+                           </MudTable>
+                     </MudItem>
+               }
+               else
+               {
+                  <MudText>This recipe currently has no ingredients added! :(</MudText>
+               }
+         </MudItem>
+
+         <MudStack Style="margin-top: 20px" Row="true">
+               @if (mNewRecipe)
+               {
+                  <MudButton @onclick="async () => await Add()" Variant="Variant.Filled" Color="Color.Success" FullWidth="true">Add</MudButton>
+               }
+               else
+               {
+                  <MudButton @onclick="async () => await Update()" Variant="Variant.Filled" Color="Color.Success" FullWidth="true">Update</MudButton>
+                  <MudButton @onclick="async () => await Delete()" Variant="Variant.Filled" Color="Color.Error" FullWidth="true">Delete</MudButton>
+               }
+               <MudButton @onclick="Cancel" Variant="Variant.Filled" Color="Color.Warning" FullWidth="true">Cancel</MudButton>
+         </MudStack>
+      </MudItem>
+   </DialogContent>
+</MudDialog>
+
