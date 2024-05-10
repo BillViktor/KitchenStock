@@ -299,7 +299,7 @@ namespace KitchenStock.Data
         /// Removes a List of ShoppingModel
         /// </summary>
         /// <param name="aShoppingModel">The List of ShoppingModel to remove</param>
-        public async Task RemoveStock(List<ShoppingModel> aShoppingModel)
+        public async Task RemoveShoppingModelList(List<ShoppingModel> aShoppingModel)
         {
             mKitchenStockDbContext.ShoppingModels.RemoveRange(aShoppingModel);
             await mKitchenStockDbContext.SaveChangesAsync();

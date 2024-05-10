@@ -900,7 +900,7 @@ namespace KitchenStock.Components.ViewModels
 
             try
             {
-                await mKitchenStockRepository.RemoveStock(aShoppingModelList);
+                await mKitchenStockRepository.RemoveShoppingModelList(aShoppingModelList);
 
                 mSuccessMessages.Add($"Successfully removed {aShoppingModelList.Count} items from the shopping list!");
             }
@@ -958,7 +958,7 @@ namespace KitchenStock.Components.ViewModels
             try
             {
                 await mKitchenStockRepository.AddStock(aStockModel, aQuantity);
-                await AddStockLogNewStock(aStockModel); //Log
+                await AddStockLogNewStock(aStockModel, aQuantity); //Log
 
                 mSuccessMessages.Add($"Successfully added {aStockModel.Article.Name}!");
             }
@@ -1054,6 +1054,12 @@ namespace KitchenStock.Components.ViewModels
             try
             {
                 await mKitchenStockRepository.RemoveStock(aStockModelList);
+
+                //Log
+                foreach(var sStock in aStockModelList)
+                {
+                    await AddStockLogDeleteStock(sStock); 
+                }
 
                 mSuccessMessages.Add($"Successfully removed {aStockModelList.Count} entries of Stock!");
             }
@@ -1172,12 +1178,12 @@ namespace KitchenStock.Components.ViewModels
         /// Creates a new StockLogModel for adding new stock
         /// </summary>
         /// <param name="aStockModel">The StockModel to log</param>
-        public async Task AddStockLogNewStock(StockModel aStockModel)
+        public async Task AddStockLogNewStock(StockModel aStockModel, int aQuantity)
         {
             StockLogModel sStockLog = new StockLogModel
             {
                 Article = aStockModel.Article,
-                Description = $"Added new stock for ArticleName: {aStockModel.Article.Name}",
+                Description = $"Added {aQuantity} new stock for ArticleName: {aStockModel.Article.Name}.",
                 NewBestBeforeDate = aStockModel.BestBeforeDate,
                 NewLocation = aStockModel.Location,
                 NewPercentageLeft = aStockModel.PercentageLeft,
